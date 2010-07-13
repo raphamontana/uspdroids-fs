@@ -1,0 +1,39 @@
+USPdroids Football Simulator 2.5.0
+AUTHORS:
+Danilo Tadashi Doi <danilotdoi@gmail.com>
+Raphael Montanari <raphamontana@gmail.com>
+Willian Constâncio da Silva <willianconsta@gmail.com>
+http://code.google.com/p/uspdroids-fs
+
+
+DESCRIPTION
+
+USPdroidsFS is a small and simple graphical football (a.k.a. soccer) manager game
+featuring many international leagues and cups. You manage a team from one such
+league: you form the team, buy and sell players, get promoted or relegated and
+of course try to be successful.
+
+
+INSTALLATION AND UPDATE
+
+See INSTALL for instructions on how to install USPdroidsFS.
+
+Have a look at UPDATE for instructions on how to keep your USPdroidsFS version
+up-to-date easily.
+
+
+BUG REPORTS AND PRAISE
+
+If you like the game and have suggestions on how to improve it (keep in mind
+that the game is kept simple on purpose, so don't suggest something like 'each
+player should have separate skill-values for their right and left foot and you
+should add the colour of their eye, too') or find bugs, write me to the above
+address or submit a report on the website. You should describe the
+circumstances of the occurence of the bug and whether you can reproduce it or
+not. If there's an output, attaching it (unless it's a simple, hateful,
+embarrassing segfault) might be helpful, too. If it's reproducible, it'd be
+very helpful to attach a savegame.
+
+Another way you can contribute to USPdroidsFS is to write a country file and send
+me the result. See the forums at http://uspds.sourceforge.net/forum on help
+and advice.
