@@ -1,5 +1,24 @@
-#ifndef GERENCIADORVISUALIZADORES_H
-#define GERENCIADORVISUALIZADORES_H
+/*
+    Copyright (C) 2010  Doi, Montanari, Silva
+
+    This file is part of the USPDroids Football Simulator.
+
+    The USPDroids Football Simulator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    The USPDroids Football Simulator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef VIEWERS_MANAGER_H
+#define VIEWERS_MANAGER_H
 
 #include "worldmodel.h"
 #include <QMutex>
@@ -19,6 +38,14 @@ public:
         this->viewerPort = viewerPort;
         listenerSocket.bind(viewerPort);
         connect(&listenerSocket, SIGNAL(readyRead()), this, SLOT(receiveMessage()));
+    }
+
+    void initialize()
+    {
+    }
+
+    void recvCommands()
+    {
     }
 
     void transmitData()
@@ -58,7 +85,7 @@ public:
         mutex.unlock();
     }
 
-public slots:
+private slots:
 
     void receiveMessage()
     {
@@ -74,6 +101,15 @@ public slots:
             mutex.unlock();
             senderSocket.writeDatagram("Request accepted", host, port);
         }
+        else if (datagram == "Disconnection request") {
+            QPair<QHostAddress, quint16> pair(host, port);
+            mutex.lock();
+            int index = addresses.indexOf(pair);
+            if (index < addresses.size()){
+                addresses.remove(index);
+            }
+            mutex.unlock();
+        }
     }
 
 private:
@@ -86,10 +122,10 @@ private:
 
     QUdpSocket senderSocket;
 
-    QMutex mutex; //Protege a lista de enderecos;
+    QMutex mutex; //Protect the address list
 
     QVector< QPair<QHostAddress, quint16> > addresses;
 
 };
 
-#endif // GERENCIADORVISUALIZADORES_H
+#endif // VIEWERS_MANAGER_H

@@ -5,5 +5,8 @@ HEADERS += viewermanager.h \
     strategymanager.h \
     simulator.h \
     gamemanager.h \
-    worldmodel.h
+    worldmodel.h \
+    strategyconnection.h
 LIBS += 
+QMAKE_CXXFLAGS += -Wall \
+    -Wextra

@@ -1,19 +1,32 @@
+/*
+    Copyright (C) 2010  Doi, Montanari, Silva
+
+    This file is part of the USPDroids Football Simulator.
+
+    The USPDroids Football Simulator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    The USPDroids Football Simulator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <QObject>
-#include "strategymanager.h"
 #include "gamemanager.h"
+#include "strategymanager.h"
 #include "viewermanager.h"
 #include "worldmodel.h"
 
-class Simulator : QObject
+class Simulator
 {
-
-    Q_OBJECT
-
 public:
 
     Simulator(unsigned int portToListen0, unsigned int portToListen1, unsigned int viewerPort)
@@ -21,7 +34,6 @@ public:
         gm = new GameManager(&wm);
         sm = new StrategyManager(&wm, portToListen0, portToListen1);
         vm = new ViewerManager(&wm, viewerPort);
-        connect(sm, SIGNAL(strategiesReady()), this, SLOT(execute()));
     }
 
     ~Simulator()
@@ -31,54 +43,55 @@ public:
         delete(vm);
     }
 
-    void start()
+    void initialize()
     {
         chronometer = 0;
         goals[0]    = 0;
         goals[1]    = 0;
-        sm->start();
-        gm->start();
-        puts("Simulador iniciado.");
-        puts("Aguardando conexao das estrategias...");
-        puts("Estrategias conectadas.\nPartida iniciada.");
-        gm->getPosicoes();
-        sm->sendPositions();
+        gm->initialize();
+        sm->initialize();
+        vm->initialize();
+        puts("Simulator started.");
+        puts("Awaiting strategies connection...");
+        sm->waitStrategies();
+        sm->transmitData();
+        puts("Strategies connected.");
+    }
+
+    void execute()
+    {
+        unsigned int tenMinutes = 36000;
+        puts("Match started.");
+        while (chronometer < tenMinutes)
+        {
+            vm->recvCommands();
+            sm->recvCommands();
+            gm->gameStep();
+            sm->transmitData();
+            vm->transmitData();
+            if (chronometer%60 == 0) {
+                printf("Time: %dmin %ds\n", chronometer/3600, chronometer%3600/60);
+            }
+            chronometer++;
+        }
     }
 
     void finish()
     {
-        printf("Tempo: %dmin %ds\n", chronometer/3600, chronometer%3600/60);
-        puts("Fim de partida.");
-        printf("Placar final: Azul %d x %d Amarelo\n", goals[0], goals[1]);
+        printf("Time: %dmin %ds\n", chronometer/3600, chronometer%3600/60);
+        puts("End of match.");
+        printf("Final score: %s %d x %d %s\n", teamName[0].toAscii().data(), goals[0], goals[1], teamName[1].toAscii().data());
         if (goals[0] > goals[1]) {
-                printf("%s venceu.\n", teamName[0].toAscii().data());
+            printf("%s won.\n", teamName[0].toAscii().data());
         } else if (goals[0] < goals[1]) {
-                printf("%s venceu.\n", teamName[1].toAscii().data());
-        } else puts("Empate.");
-        sm->desconectarEstrategias();
+            printf("%s won.\n", teamName[1].toAscii().data());
+        } else puts("Draw.");
+        gm->finalize();
+        sm->finalize();
         vm->finalize();
         if (teamName[0] != NULL) teamName[0].clear();
         if (teamName[1] != NULL) teamName[1].clear();
-        puts("Simulador encerrado.");
-    }
-
-private slots:
-
-    void execute()
-    {
-        WorldModel wm;
-        while (chronometer < 36000)//360 = 6 seg
-        {
-            sm->start();
-            sm->wait(17);
-            gm->passoDeJogo();
-            sm->sendPositions();
-            vm->transmitData();
-            if (chronometer%60*16 == 0) {
-                printf("Tempo: %dmin %ds\n", chronometer/3600, chronometer%3600/60);
-            }
-            chronometer++;
-        }
+        puts("Simulator stopped.");
     }
 
 private:

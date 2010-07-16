@@ -113,14 +113,14 @@
     <value type="QString">WINDIR=C:\Windows</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">C:/Users/Raphael/Desktop/uspds-v2.5/src/Simulator.pro</value>
+    <value type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src/Simulator.pro</value>
     <value type="QString">-spec</value>
     <value type="QString">win32-g++</value>
     <value type="QString">-r</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">c:/programas/qt/qt/bin/qmake.exe</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspds-v2.5/src</value>
+   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src</value>
    <value key="buildConfiguration" type=""></value>
   </valuemap>
  </data>
@@ -169,7 +169,7 @@
    </valuelist>
    <value key="abstractProcess.command" type="QString">C:/Programas/Qt/mingw/bin/mingw32-make.exe</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspds-v2.5/src</value>
+   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src</value>
   </valuemap>
  </data>
  <data>
@@ -218,7 +218,7 @@
    </valuelist>
    <value key="abstractProcess.command" type="QString">C:/Programas/Qt/mingw/bin/mingw32-make.exe</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspds-v2.5/src</value>
+   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src</value>
    <value key="cleanConfig" type="bool">true</value>
    <valuelist key="makeargs" type="QVariantList">
     <value type="QString">clean</value>

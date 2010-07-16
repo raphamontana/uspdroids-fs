@@ -1,5 +1,24 @@
-#ifndef GERENCIADORJOGO_H
-#define GERENCIADORJOGO_H
+/*
+    Copyright (C) 2010  Doi, Montanari, Silva
+
+    This file is part of the USPDroids Football Simulator.
+
+    The USPDroids Football Simulator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    The USPDroids Football Simulator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef GAME_MANAGER_H
+#define GAME_MANAGER_H
 
 #include "worldmodel.h"
 
@@ -12,21 +31,23 @@ public:
         this->wm = wm;
     }
 
-    void start()
+    void initialize()
     {
     }
 
-    void getPosicoes()
+    /**
+     * Physical Simulation: The soccer server has a physi-
+     * cal simulator, which simulates movement of objects (ball
+     * and players) and collisions between them. The simu-
+     * lation is simplied so that it is easy to calculate the
+     * changes in real-time, but the essence of soccer is not
+     * lost.
+     */
+    void gameStep()
     {
-        wm->ball.x = 0;
     }
 
-    void receberComandos()
-    {
-        wm->team[0].robot[0].setWheelsSpeed(0, 0);
-    }
-
-    void passoDeJogo()
+    void finalize()
     {
     }
 
@@ -34,4 +55,4 @@ public:
 
 };
 
-#endif // GERENCIADORJOGO_H
+#endif // GAME_MANAGER_H

@@ -1,31 +1,76 @@
-#ifndef STRATEGYMANAGER_H
-#define STRATEGYMANAGER_H
+/*
+    Copyright (C) 2010  Doi, Montanari, Silva
 
-#include "worldmodel.h"
-#include <QMutex>
-#include <QtNetwork>
-#include <QThread>
+    This file is part of the USPDroids Football Simulator.
 
-class StrategyManager : public QThread
+    The USPDroids Football Simulator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    The USPDroids Football Simulator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef STRATEGIES_MANAGER_H
+#define STRATEGIES_MANAGER_H
+
+#include "strategyconnection.h"
+
+class StrategyManager : QObject
 {
 
     Q_OBJECT
 
 public:
 
-    StrategyManager(WorldModel * wm, quint16 portToListen1, quint16 portToListen2)
+    /**
+     *
+     */
+    StrategyManager(WorldModel * wm, quint16 portToListen0, quint16 portToListen1)
     {
         this->wm = wm;
-        this->portToListen[0] = portToListen1;
-        this->portToListen[1] = portToListen2;
-        listenerSocket[0].bind(portToListen1);
-        listenerSocket[1].bind(portToListen2);
+        st[0] = new StrategyConnection(portToListen0);
+        st[1] = new StrategyConnection(portToListen1);
     }
 
-    void sendPositions()
+    /**
+     *
+     */
+    void initialize()
     {
-        QByteArray message;
-        sprintf(message.data(), "O %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+        st[0]->start();
+        st[1]->start();
+    }
+
+    void waitStrategies() {
+        st[0]->wait();
+        st[1]->wait();
+    }
+
+    /**
+     * Libera duas threads para receber mensagem das estrategias
+     */
+    void recvCommands()
+    {
+        st[0]->start();
+        st[1]->start();
+        st[0]->wait();
+        st[1]->wait();
+    }
+
+    /**
+     * Send the positions of the objects in the world model to the strategies.
+     */
+    void transmitData()
+    {
+        QByteArray message[2];
+        sprintf(message[0].data(), "O %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
                 wm->ball.x, wm->ball.y,
                 wm->team[0].robot[0].x, wm->team[0].robot[0].y, wm->team[0].robot[0].angxy,
                 wm->team[0].robot[1].x, wm->team[0].robot[1].y, wm->team[0].robot[1].angxy,
@@ -33,11 +78,7 @@ public:
                 wm->team[1].robot[0].x, wm->team[1].robot[0].y, wm->team[1].robot[0].angxy,
                 wm->team[1].robot[1].x, wm->team[1].robot[1].y, wm->team[1].robot[1].angxy,
                 wm->team[1].robot[2].x, wm->team[1].robot[2].y, wm->team[1].robot[2].angxy);
-        mutex[0].lock();
-        senderSocket[0].writeDatagram(message, address[0], portToSend[0]);
-        mutex[0].unlock();
-
-        sprintf(message.data(), "O %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+        sprintf(message[1].data(), "O %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
                 wm->ball.x, wm->ball.y,
                 wm->team[1].robot[0].x, wm->team[1].robot[0].y, wm->team[1].robot[0].angxy,
                 wm->team[1].robot[1].x, wm->team[1].robot[1].y, wm->team[1].robot[1].angxy,
@@ -45,91 +86,35 @@ public:
                 wm->team[0].robot[0].x, wm->team[0].robot[0].y, wm->team[0].robot[0].angxy,
                 wm->team[0].robot[1].x, wm->team[0].robot[1].y, wm->team[0].robot[1].angxy,
                 wm->team[0].robot[2].x, wm->team[0].robot[2].y, wm->team[0].robot[2].angxy);
-        mutex[1].lock();
-        senderSocket[1].writeDatagram(message, address[1], portToSend[1]);
-        mutex[1].unlock();
+        //mutex[0].lock();
+        //mutex[1].lock();
+        //senderSocket[0].writeDatagram(message[0], address[0], portToSend[0]);
+        //senderSocket[1].writeDatagram(message[1], address[1], portToSend[1]);
+        //mutex[0].unlock();
+        //mutex[1].unlock();
     }
 
-    void run()
-    {
-        bool received[2];
-        received[0] = received[1] = false;
-        decodeMessage(0, "");
-    }
-
-    WorldModel getComandos()
-    {
-        return(*wm);
-    }
-
-    void start()
-    {
-        connectedStrategies = 0;
-        connect(&listenerSocket[0], SIGNAL(readyRead()), this, SLOT(connectMessage()));
-        connect(&listenerSocket[1], SIGNAL(readyRead()), this, SLOT(connectMessage()));
-    }
-
-    void desconectarEstrategias()
-    {
-        disconnect(&listenerSocket[0], SIGNAL(readyRead()), this, SLOT(connectMessage1()));
-        connect(&listenerSocket[0], SIGNAL(readyRead()), this, SLOT(receiveMessage1()));
-    }
-
-signals:
-
-    void strategiesReady();
-
-public slots:
-
-    void connectMessage1()
-    {
-        mutex[0].lock();
-        disconnect(&listenerSocket[0], SIGNAL(readyRead()), this, SLOT(connectMessage1()));
-        connect(&listenerSocket[0], SIGNAL(readyRead()), this, SLOT(receiveMessage1()));
-        mutex[0].unlock();
-    }
-
-    void receiveMessage1()
+    /**
+     *
+     */
+    void disconnectStrategy()
     {
     }
 
-    void receiveMessage2()
+    /**
+     *
+     */
+    void finalize()
     {
+        //disconnectStrategy(0);
+        //disconnectStrategy(1);
     }
 
 private:
 
-    QByteArray encodeMessage(int strategy)
-    {
-        QByteArray message;
-        if (strategy == 0) {
-            sprintf(message.data(), "O %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-                    wm->ball.x, wm->ball.y,
-                    wm->team[0].robot[0].x, wm->team[0].robot[0].y, wm->team[0].robot[0].angxy,
-                    wm->team[0].robot[1].x, wm->team[0].robot[1].y, wm->team[0].robot[1].angxy,
-                    wm->team[0].robot[2].x, wm->team[0].robot[2].y, wm->team[0].robot[2].angxy,
-                    wm->team[1].robot[0].x, wm->team[1].robot[0].y, wm->team[1].robot[0].angxy,
-                    wm->team[1].robot[1].x, wm->team[1].robot[1].y, wm->team[1].robot[1].angxy,
-                    wm->team[1].robot[2].x, wm->team[1].robot[2].y, wm->team[1].robot[2].angxy);
-            return(message);
-        }
-        else if (strategy == 1) {
-            sprintf(message.data(), "O %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-                    wm->ball.x, wm->ball.y,
-                    wm->team[1].robot[0].x, wm->team[1].robot[0].y, wm->team[1].robot[0].angxy,
-                    wm->team[1].robot[1].x, wm->team[1].robot[1].y, wm->team[1].robot[1].angxy,
-                    wm->team[1].robot[2].x, wm->team[1].robot[2].y, wm->team[1].robot[2].angxy,
-                    wm->team[0].robot[0].x, wm->team[0].robot[0].y, wm->team[0].robot[0].angxy,
-                    wm->team[0].robot[1].x, wm->team[0].robot[1].y, wm->team[0].robot[1].angxy,
-                    wm->team[0].robot[2].x, wm->team[0].robot[2].y, wm->team[0].robot[2].angxy);
-            return(message);
-        }
-        else {
-            message = "Bad encoded message.";
-            return(message);
-        }
-    }
-
+    /**
+     *
+     */
     void decodeMessage(int strategy, QByteArray message)
     {
         int read;
@@ -154,24 +139,8 @@ private:
 
     WorldModel * wm;
 
-    QMutex connectedStrategiesMutex;
-
-    quint8 connectedStrategies;
-
-    QMutex mutex[2];
-
-    QUdpSocket listenerSocket[2];
-
-    QUdpSocket senderSocket[2];
-
-    QHostAddress address[2];
-
-    quint16 portToListen[2];
-
-    quint16 portToSend[2];
-
-    QString teamName[2];
+    StrategyConnection * st[2];
 
 };
 
-#endif // STRATEGYMANAGER_H
+#endif // STRATEGIES_MANAGER_H
