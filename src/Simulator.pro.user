@@ -90,7 +90,7 @@
     <value type="QString">LOGONSERVER=\\RAPHAEL-PC</value>
     <value type="QString">NUMBER_OF_PROCESSORS=2</value>
     <value type="QString">OS=Windows_NT</value>
-    <value type="QString">PATH=C:\Programas\Qt\mingw\bin;C:\Programas\Qt\qt\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;C:\Programas\Qt\mingw\bin</value>
+    <value type="QString">PATH=C:\Programas\Qt\mingw\bin;C:\Programas\Qt\qt\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Programas\Qt\mingw\bin;C:\Program Files\TortoiseSVN\bin</value>
     <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC</value>
     <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 15 Model 104 Stepping 1, AuthenticAMD</value>
@@ -141,7 +141,7 @@
     <value type="QString">LOGONSERVER=\\RAPHAEL-PC</value>
     <value type="QString">NUMBER_OF_PROCESSORS=2</value>
     <value type="QString">OS=Windows_NT</value>
-    <value type="QString">PATH=C:\Programas\Qt\mingw\bin;C:\Programas\Qt\qt\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;C:\Programas\Qt\mingw\bin</value>
+    <value type="QString">PATH=C:\Programas\Qt\mingw\bin;C:\Programas\Qt\qt\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Programas\Qt\mingw\bin;C:\Program Files\TortoiseSVN\bin</value>
     <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC</value>
     <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 15 Model 104 Stepping 1, AuthenticAMD</value>
@@ -189,7 +189,7 @@
     <value type="QString">LOGONSERVER=\\RAPHAEL-PC</value>
     <value type="QString">NUMBER_OF_PROCESSORS=2</value>
     <value type="QString">OS=Windows_NT</value>
-    <value type="QString">PATH=C:\Programas\Qt\mingw\bin;C:\Programas\Qt\qt\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;C:\Programas\Qt\mingw\bin</value>
+    <value type="QString">PATH=C:\Programas\Qt\mingw\bin;C:\Programas\Qt\qt\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Programas\Qt\mingw\bin;C:\Program Files\TortoiseSVN\bin</value>
     <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC</value>
     <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
     <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 15 Model 104 Stepping 1, AuthenticAMD</value>

@@ -17,10 +17,12 @@
     along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QtCore/QCoreApplication>
 #include "simulator.h"
 
 int main(int argc, char* argv[])
 {
+    QCoreApplication a(argc, argv);
     Simulator * uspds;
     bool waitPlayCommand = false;             //Correct this after GUI insertion
     int loop = 1;
@@ -59,6 +61,8 @@ int main(int argc, char* argv[])
             return(0);
         }
     }
+    puts("USPDroids Football Simulator v2.5");
+    puts("Copyright (C) 2010 Robot Learning Laboratory.\n");
     uspds = new Simulator(26000, 26001, 25999);
     while (loop-- > 0) {
         uspds->initialize();
@@ -69,5 +73,6 @@ int main(int argc, char* argv[])
         uspds->finish();
     }
     delete(uspds);
-    return 0;
+    getchar();
+    return(a.exec());
 }
