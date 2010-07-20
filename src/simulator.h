@@ -39,7 +39,7 @@ private:
 
     StrategiesManager * sm;
 
-    ViewerManager * vm;
+    ViewersManager * vm;
 
     quint32 chronometer;
 

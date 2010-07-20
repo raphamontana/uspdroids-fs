@@ -9,9 +9,9 @@
     (at your option) any later version.
 */
 
-#include "viewermanager.h"
+#include "viewersmanager.h"
 
-ViewerManager::ViewerManager(WorldModel * wm, quint16 viewerPort)
+ViewersManager::ViewersManager(WorldModel * wm, quint16 viewerPort)
 {
     this->wm = wm;
     this->viewerPort = viewerPort;
@@ -22,15 +22,15 @@ ViewerManager::ViewerManager(WorldModel * wm, quint16 viewerPort)
     connect(&listenerSocket, SIGNAL(readyRead()), this, SLOT(receiveMessage()));
 }
 
-void ViewerManager::initialize()
+void ViewersManager::initialize()
 {
 }
 
-void ViewerManager::recvCommands()
+void ViewersManager::recvCommands()
 {
 }
 
-void ViewerManager::transmitData()
+void ViewersManager::transmitData()
 {
     mutex.lock();
     int size = addresses.size();
@@ -57,7 +57,7 @@ void ViewerManager::transmitData()
     mutex.unlock();
 }
 
-void ViewerManager::finalize()
+void ViewersManager::finalize()
 {
     mutex.lock();
     for (register int i = 0; i < addresses.size(); i++) {
@@ -67,7 +67,7 @@ void ViewerManager::finalize()
     mutex.unlock();
 }
 
-void ViewerManager::receiveMessage()
+void ViewersManager::receiveMessage()
 {
     QByteArray datagram;
     QHostAddress host;

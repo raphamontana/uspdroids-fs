@@ -15,7 +15,7 @@ Simulator::Simulator(unsigned int portToListen0, unsigned int portToListen1, uns
 {
     gm = new GameManager(&wm);
     sm = new StrategiesManager(&wm, portToListen0, portToListen1);
-    vm = new ViewerManager(&wm, viewerPort);
+    vm = new ViewersManager(&wm, viewerPort);
 }
 
 Simulator::~Simulator()

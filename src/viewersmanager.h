@@ -17,14 +17,14 @@
 #include <QtNetwork>
 #include <QVector>
 
-class ViewerManager : QObject
+class ViewersManager : QObject
 {
 
     Q_OBJECT
 
 public:
 
-    ViewerManager(WorldModel * wm, quint16 viewerPort);
+    ViewersManager(WorldModel * wm, quint16 viewerPort);
 
     void initialize();
 
