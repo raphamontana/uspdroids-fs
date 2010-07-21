@@ -14,28 +14,61 @@
 
 #include "worldmodel.h"
 
+/**
+ * @class GameManager
+ * @brief Provide an abstraction to the physic engine.
+ *
+ * Details of the class.
+ */
 class GameManager
 {
+
 public:
 
+    /**
+     * @brief Create a GameManager.
+     * @param wm a WorldModel object
+     *
+     * Get the world model address from the simulator.
+     */
     GameManager(WorldModel * wm);
 
+    /**
+     * @brief Simple initialize the manager.
+     *
+     * Finalize the manager.
+     */
     void initialize();
 
     /**
-     * Physical Simulation: The soccer server has a physi-
-     * cal simulator, which simulates movement of objects (ball
-     * and players) and collisions between them. The simu-
-     * lation is simplied so that it is easy to calculate the
+     * @brief Execute one game step
+     *
+     * Physical Simulation: The soccer server has a physical
+     * simulator, which simulates movement of objects (ball
+     * and players) and collisions between them. The simulation
+     * is simplified so that it is easy to calculate the
      * changes in real-time, but the essence of soccer is not
      * lost.
      */
     void gameStep();
 
+    /**
+     * @brief Finalize the manager.
+     *
+     * Finalize the manager.
+     */
     void finalize();
 
+private:
+
+    /**
+     * @brief The world model.
+     *
+     * It is used to communicate with the others modules from
+     * the simulator.
+     */
     WorldModel * wm;
 
-};
+};                          // end of class GameManager
 
 #endif // GAME_MANAGER_H

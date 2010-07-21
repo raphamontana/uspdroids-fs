@@ -17,8 +17,6 @@
 #include <QSemaphore>
 #include <QtNetwork>
 
-typedef enum {unbinded, disconnected, connected, sending} connectionStatus;
-
 class StrategyConnection : public QThread
 {
 
@@ -48,13 +46,13 @@ public:
 
 private:
 
-    connectionStatus state;
+    enum {unbinded, disconnected, receiving, sending} connectionStatus, state;
 
     QUdpSocket * socket;
 
-    quint16 port;
+    quint16 portToListen;
 
-    QHostAddress host;
+    QHostAddress addressToSend;
 
     quint16 portToSend;
 

@@ -14,13 +14,15 @@ SOURCES += main.cpp \
     gamemanager.cpp \
     strategyconnection.cpp \
     viewersmanager.cpp \
-    strategiesmanager.cpp
+    strategiesmanager.cpp \
+    launcher.cpp
 HEADERS += simulator.h \
     gamemanager.h \
     worldmodel.h \
     strategyconnection.h \
     viewersmanager.h \
-    strategiesmanager.h
+    strategiesmanager.h \
+    launcher.h
 LIBS += 
 QMAKE_CXXFLAGS += -Wall \
     -Wextra

@@ -13,7 +13,7 @@
 
 StrategyConnection::StrategyConnection(quint16 port)
 {
-    this->port = port;
+    portToListen = port;
     state = unbinded;
     //socket->moveToThread(this);
 }
@@ -35,30 +35,46 @@ void StrategyConnection::disconnectStrategy()
 
 void StrategyConnection::run()
 {
+    QHostAddress host;
+    quint16 port;
     QByteArray datagram;
     switch (state) {
-        case connected:
+        case receiving:
             if (socket->waitForReadyRead(17)) {
                 datagram.resize(socket->pendingDatagramSize());
-                datagram = socket->read(socket->pendingDatagramSize());
+                socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &host, &port);
+                if (host == addressToSend && port == portToSend) {
+                    if (datagram.data()[0] == 'O') {
+                        commands = datagram;
+                    }
+                    else if (datagram == "Disconnection request") {
+                        state = disconnected;
+                    }
+                }
+                else {
+                    socket->writeDatagram("Request rejected.", host, port);
+                }
             }
+            state = sending;
             break;
         case sending:
+            socket->writeDatagram(commands, addressToSend, portToSend);
+            state = receiving;
             break;
         case unbinded:
             socket = new QUdpSocket;
-            if (!socket->bind(port, QUdpSocket::DontShareAddress)) {
+            if (!socket->bind(portToListen, QUdpSocket::DontShareAddress)) {
                 puts("Could not bind the socket.");
                 exit(0);
             }
             while (true) {
                 socket->waitForReadyRead();
                 datagram.resize(socket->pendingDatagramSize());
-                socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &host, &portToSend);
+                socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &addressToSend, &portToSend);
                 if (datagram.contains("Connection request")) {
                     datagram.remove(0, 20);
                     teamName = datagram.data();
-                    socket->writeDatagram("Request aceppted.", host, portToSend);
+                    socket->writeDatagram("Request aceppted.", addressToSend, portToSend);
                     break;
                 }
             }
@@ -68,44 +84,19 @@ void StrategyConnection::run()
         case disconnected:
             while (true) {
                 socket->waitForReadyRead();
+                datagram.resize(socket->pendingDatagramSize());
+                socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &addressToSend, &portToSend);
+                if (datagram.contains("Connection request")) {
+                    datagram.remove(0, 20);
+                    teamName = datagram.data();
+                    socket->writeDatagram("Request aceppted.", addressToSend, portToSend);
+                    break;
+                }
             }
-            puts("One strategy has connected.");
+            printf("Team %s has connected.\n", datagram.data());
             state = sending;
             break;
-
         default:
             break;
     }
 }
-
-//    void readMessage()
-//    {
-//        exit(1);
-//        QByteArray datagram;
-//        QHostAddress host;
-//        quint16 port;
-//        QMutexLocker locker(&mutex);
-//        datagram.resize(socket.pendingDatagramSize());
-//        socket.readDatagram(datagram.data(), socket.pendingDatagramSize(), &host, &port);
-//        if (isConnected && (address == host && this->port == port)) {
-//            if (datagram.data()[0] == 'O') {
-//                commands = datagram;
-//                messageReceived.release();
-//            }
-//            else if (datagram.contains("Strategy name: ")) {
-//                datagram.remove(0, 16);
-//                teamName = datagram.data();
-//            }
-//            else if (datagram == "Disconnection request") {
-//                isConnected = false;
-//            }
-//        }
-//        else if (datagram == "Connection request") {
-//            isConnected = true;
-//            address = host;
-//            this->port = port;
-//            socket.writeDatagram("Send the strategy name.", address, port);
-//            puts("Strategy connected.");
-//            connection.release();
-//        }
-//    }
