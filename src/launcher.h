@@ -22,6 +22,10 @@ public:
 
     Launcher(int argc, char* argv[]);
 
+signals:
+
+    void quit();
+
 public slots:
 
     void launch();
@@ -29,6 +33,16 @@ public slots:
 private:
 
     bool exec;
+
+    bool gui;
+
+    bool noia1;
+
+    bool noia2;
+
+    bool log;
+
+    bool debug;
 
     int loop;
 

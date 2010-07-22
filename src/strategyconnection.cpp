@@ -15,7 +15,6 @@ StrategyConnection::StrategyConnection(quint16 port)
 {
     portToListen = port;
     state = unbinded;
-    //socket->moveToThread(this);
 }
 
 QByteArray StrategyConnection::getMessage()
@@ -38,10 +37,10 @@ void StrategyConnection::run()
     QHostAddress host;
     quint16 port;
     QByteArray datagram;
+    datagram.resize(1024);
     switch (state) {
         case receiving:
             if (socket->waitForReadyRead(17)) {
-                datagram.resize(socket->pendingDatagramSize());
                 socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &host, &port);
                 if (host == addressToSend && port == portToSend) {
                     if (datagram.data()[0] == 'O') {
@@ -69,7 +68,6 @@ void StrategyConnection::run()
             }
             while (true) {
                 socket->waitForReadyRead();
-                datagram.resize(socket->pendingDatagramSize());
                 socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &addressToSend, &portToSend);
                 if (datagram.contains("Connection request")) {
                     datagram.remove(0, 20);
@@ -79,12 +77,9 @@ void StrategyConnection::run()
                 }
             }
             printf("Team %s has connected.\n", datagram.data());
-            state = sending;
-            break;
         case disconnected:
             while (true) {
                 socket->waitForReadyRead();
-                datagram.resize(socket->pendingDatagramSize());
                 socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &addressToSend, &portToSend);
                 if (datagram.contains("Connection request")) {
                     datagram.remove(0, 20);

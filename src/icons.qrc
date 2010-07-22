@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/ball.png</file>
+        <file>icons/disconnect.ico</file>
+        <file>icons/exit.ico</file>
+        <file>icons/help.ico</file>
+        <file>icons/information.ico</file>
+        <file>icons/log.ico</file>
+        <file>icons/pause.ico</file>
+        <file>icons/play.ico</file>
+        <file>icons/settings.ico</file>
+        <file>icons/splash.png</file>
+        <file>icons/statistics.ico</file>
+        <file>icons/stop.ico</file>
+        <file>icons/video.ico</file>
+        <file>icons/warning.ico</file>
+    </qresource>
+</RCC>

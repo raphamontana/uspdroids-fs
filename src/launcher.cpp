@@ -14,7 +14,11 @@
 Launcher::Launcher(int argc, char *argv[])
 {
     exec = true;
-    waitPlayCommand = false;             //Correct this after GUI insertion
+    gui = false;
+    noia1 = false;
+    noia2 = false;
+    log = false;
+    debug = false;
     loop = 1;
     for (register int i = 1; i < argc; i++) {
         if (!strcmp("-loop", argv[i])) {
@@ -57,12 +61,18 @@ Launcher::Launcher(int argc, char *argv[])
 
 void Launcher::launch()
 {
-    Simulator * uspds;
-    uspds = new Simulator(26000, 26001, 25999);
-    while (loop-- > 0) {
-        uspds->initialize();
-        uspds->execute();
-        uspds->finish();
+    if (gui) {
+        //Inicia o front end
     }
-    delete(uspds);
+    else {
+        Simulator * uspds;
+        uspds = new Simulator(26000, 26001, 25999);
+        while (loop-- > 0) {
+            uspds->initialize();
+            uspds->execute();
+            uspds->finish();
+        }
+        delete(uspds);
+        emit(quit());
+    }
 }

@@ -1,0 +1,3 @@
+What is USPDroids Simulator ?=============================USPDroids Simulator is a free simulator for robot football, which supports the IEEE Very Small Size category, running under the MS Windows environment.To build USPDroids Simulator package from source code:======================================================For generating the executable file (uspds.exe), you can use gcc 4.3.3.All the binaries will be built in the directory uspds\uspds2.0\binGo to USPDroids Simulator official site for more information :http://lar.icmc.usp.br/Roseli Aparecida Francelin Romerorafrance@icmc.usp.br
+
+

@@ -12,6 +12,11 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
+#define dDOUBLE
+#include <ode/ode.h>
+#include "physics/ball.h"
+#include "physics/field.h"
+#include "physics/robot.h"
 #include "worldmodel.h"
 
 /**
@@ -32,6 +37,13 @@ public:
      * Get the world model address from the simulator.
      */
     GameManager(WorldModel * wm);
+
+    /**
+     * @brief Destroy allocated objects.
+     *
+     * Finalize the manager.
+     */
+    ~GameManager();
 
     /**
      * @brief Simple initialize the manager.
@@ -61,6 +73,8 @@ public:
 
 private:
 
+    static void colisao(void* data, dGeomID o1, dGeomID o2);
+
     /**
      * @brief The world model.
      *
@@ -69,6 +83,17 @@ private:
      */
     WorldModel * wm;
 
+    dWorldID world;
+
+    dSpaceID space;
+
+    ODE_Campo *campo;
+
+    ODE_Bola *bola;
+
+    ODE_Robo* equipe[2][3];
+
+    dJointGroupID contactgroup;
 };                          // end of class GameManager
 
 #endif // GAME_MANAGER_H

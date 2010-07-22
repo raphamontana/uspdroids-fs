@@ -22,7 +22,12 @@ HEADERS += simulator.h \
     strategyconnection.h \
     viewersmanager.h \
     strategiesmanager.h \
-    launcher.h
-LIBS += 
+    launcher.h \
+    physics/team.h \
+    physics/robot.h \
+    physics/field.h \
+    physics/ball.h
+LIBS += -lode_double
 QMAKE_CXXFLAGS += -Wall \
     -Wextra
+RESOURCES += icons.qrc
