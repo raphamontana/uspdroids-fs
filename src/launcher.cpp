@@ -62,7 +62,13 @@ Launcher::Launcher(int argc, char *argv[])
 void Launcher::launch()
 {
     if (gui) {
-        //Inicia o front end
+        Q_INIT_RESOURCE(icons);
+        QPixmap *pic = new QPixmap(":imagens/splash.png");
+        QSplashScreen *splash = new QSplashScreen(*pic, Qt::WindowStaysOnTopHint);
+        splash->setMask(pic->mask());
+        splash->show();
+        JanelaPrincipal jp;
+        jp.show();
     }
     else {
         Simulator * uspds;

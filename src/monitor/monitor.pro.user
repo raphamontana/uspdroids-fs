@@ -10,11 +10,11 @@
  </data>
  <data>
   <variable>RunConfiguration0-ProFile</variable>
-  <value type="QString">frontend.pro</value>
+  <value type="QString">monitor.pro</value>
  </data>
  <data>
   <variable>RunConfiguration0-RunConfiguration.name</variable>
-  <value type="QString">frontend</value>
+  <value type="QString">monitor</value>
  </data>
  <data>
   <variable>RunConfiguration0-UseDyldImageSuffix</variable>
@@ -58,7 +58,6 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <value key="QtVersionId" type="int">0</value>
    <value key="ToolChain" type="int">2</value>
-   <value key="addQDumper" type=""></value>
    <value key="buildConfiguration" type="int">2</value>
   </valuemap>
  </data>
@@ -68,7 +67,6 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <value key="QtVersionId" type="int">0</value>
    <value key="ToolChain" type="int">2</value>
-   <value key="addQDumper" type=""></value>
    <value key="buildConfiguration" type="int">0</value>
   </valuemap>
  </data>
@@ -112,14 +110,14 @@
     <value type="QString">WINDIR=C:\Windows</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src/front-end/frontend.pro</value>
+    <value type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src/monitor/monitor.pro</value>
     <value type="QString">-spec</value>
     <value type="QString">win32-g++</value>
     <value type="QString">-r</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">c:/programas/qt/qt/bin/qmake.exe</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src/front-end</value>
+   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src/monitor</value>
   </valuemap>
  </data>
  <data>
@@ -167,7 +165,7 @@
    </valuelist>
    <value key="abstractProcess.command" type="QString">C:/Programas/Qt/mingw/bin/mingw32-make.exe</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src/front-end</value>
+   <value key="abstractProcess.workingDirectory" type="QString">C:/Users/Raphael/Desktop/uspdroids-fs/src/monitor</value>
   </valuemap>
  </data>
  <data>

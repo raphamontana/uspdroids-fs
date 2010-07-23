@@ -17,13 +17,14 @@
     along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QtCore/QCoreApplication>
 #include "launcher.h"
 
 int main(int argc, char* argv[])
 {
-    QApplication app(argc, argv);
-    Launcher launcher(argc, argv);
+    QCoreApplication app(argc, argv);
+    Launcher launcher;
     QTimer::singleShot(0, &launcher, SLOT(launch()));
-    QObject::connect(&launcher, SIGNAL(quit()), &app, SLOT(quit()));
+    QTimer::singleShot(0, &app, SLOT(quit()));
     return(app.exec());
 }

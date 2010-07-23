@@ -3,7 +3,7 @@
 # -------------------------------------------------
 QT += core
 QT += network
-QT -= gui
+QT += gui
 TARGET = Simulator
 CONFIG += console
 CONFIG -= app_bundle
@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     strategyconnection.cpp \
     viewersmanager.cpp \
     strategiesmanager.cpp \
-    launcher.cpp
+    launcher.cpp \
+    front-end/janelaprincipal.cpp
 HEADERS += simulator.h \
     gamemanager.h \
     worldmodel.h \
@@ -26,8 +27,10 @@ HEADERS += simulator.h \
     physics/team.h \
     physics/robot.h \
     physics/field.h \
-    physics/ball.h
+    physics/ball.h \
+    front-end/janelaprincipal.h
 LIBS += -lode_double
 QMAKE_CXXFLAGS += -Wall \
     -Wextra
 RESOURCES += icons.qrc
+FORMS += front-end/janelaprincipal.ui

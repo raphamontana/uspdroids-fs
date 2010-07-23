@@ -12,44 +12,22 @@
 #ifndef LAUNCHER_H
 #define LAUNCHER_H
 
-#include <QtGui/QApplication>
-#include <QSplashScreen>
-#include "front-end/janelaprincipal.h"
-#include "simulator.h"
+#include "conexao.h"
 
 class Launcher : public QObject
 {
     Q_OBJECT
 
-public:
-
-    Launcher(int argc, char* argv[]);
-
-signals:
-
-    void quit();
-
 public slots:
 
-    void launch();
-
-private:
-
-    bool exec;
-
-    bool gui;
-
-    bool noia1;
-
-    bool noia2;
-
-    bool log;
-
-    bool debug;
-
-    int loop;
-
-    bool waitPlayCommand;
+    void launch()
+    {
+        Conexao conn("Montanari", QHostAddress::LocalHost);
+        while (true) {
+            conn.recebe();
+            conn.envia();
+        }
+    }
 };
 
 #endif // LAUNCHER_H
