@@ -13,6 +13,7 @@
 #define WORLD_MODEL_H
 
 #include <QByteArray>
+#include <QString>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -37,6 +38,7 @@ public:
 
 class RobotModel : public SpatialLocation
 {
+
 public:
 
     RobotModel();
@@ -53,7 +55,10 @@ public:
 
 class TeamModel
 {
+
 public:
+
+    QString name;
 
     RobotModel robot[3];
 
@@ -61,7 +66,10 @@ public:
 
 class WorldModel
 {
+
 public:
+
+    quint32 chronometer;
 
     TeamModel team[2];
 

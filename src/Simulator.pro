@@ -5,8 +5,6 @@ QT += core
 QT += network
 QT += gui
 TARGET = Simulator
-CONFIG += console
-CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
     simulator.cpp \
@@ -33,7 +31,7 @@ HEADERS += simulator.h \
     physics/field.h \
     physics/ball.h \
     gui/frontend.h
-LIBS += -lode_double
+LIBS += -lode
 QMAKE_CXXFLAGS += -Wall \
     -Wextra
 RESOURCES += icons.qrc

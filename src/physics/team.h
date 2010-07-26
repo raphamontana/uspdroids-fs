@@ -19,7 +19,7 @@ public:
      * @param	space		espaco da simulacao
      * @param	side		lado do campo em que o time defende
      */
-    Team(dWorldID world, dSpaceID space, int lado);
+    Team(dWorldID world, dSpaceID space);
 
     /** Destrutor padrao */
     ~Team();
@@ -31,10 +31,10 @@ public:
      * Obtem as posicoes dos robos do time
      * @param[out]     v   retorna um vetor de informacoes para o gerenciador de jogo
      */
-    dReal* getPosicao(int robo);
+    dReal getPosicao(int robo);
 
 
-    dReal* getAngulo(int team);
+    dReal getAngulo(int team);
 
     /**
      * Atribui uma posicao para um robo

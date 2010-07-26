@@ -37,7 +37,7 @@ public:
      */
     double* getVelocidade();
 
-    dReal* getPosicao();
+    dReal getPosicao();
 
     /**
      * Atribui uma posicao para o robo. Especializacao de Objeto::setPosicao().

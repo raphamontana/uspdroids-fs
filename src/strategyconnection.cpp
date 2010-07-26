@@ -13,7 +13,7 @@
 
 StrategyConnection::StrategyConnection(quint16 port)
 {
-    portToListen = port;
+    listenerPort = port;
     state = unbinded;
 }
 
@@ -32,6 +32,11 @@ void StrategyConnection::disconnectStrategy()
     state = disconnected;
 }
 
+QString StrategyConnection::getTeamName()
+{
+    return(teamName);
+}
+
 void StrategyConnection::run()
 {
     QHostAddress host;
@@ -42,11 +47,11 @@ void StrategyConnection::run()
         case receiving:
             if (socket->waitForReadyRead(17)) {
                 socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &host, &port);
-                if (host == addressToSend && port == portToSend) {
+                if (host == strategyAddress && port == strategyPort) {
                     if (datagram.data()[0] == 'O') {
                         commands = datagram;
                     }
-                    else if (datagram == "Disconnection request") {
+                    else if (datagram.contains("Disconnection request")) {
                         state = disconnected;
                     }
                 }
@@ -57,34 +62,25 @@ void StrategyConnection::run()
             state = sending;
             break;
         case sending:
-            socket->writeDatagram(commands, addressToSend, portToSend);
+            socket->writeDatagram(commands, strategyAddress, strategyPort);
+            socket->waitForBytesWritten();
             state = receiving;
             break;
         case unbinded:
             socket = new QUdpSocket;
-            if (!socket->bind(portToListen, QUdpSocket::DontShareAddress)) {
+            if (!socket->bind(listenerPort, QUdpSocket::DontShareAddress)) {
                 puts("Could not bind the socket.");
                 exit(0);
             }
-            while (true) {
-                socket->waitForReadyRead();
-                socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &addressToSend, &portToSend);
-                if (datagram.contains("Connection request")) {
-                    datagram.remove(0, 20);
-                    teamName = datagram.data();
-                    socket->writeDatagram("Request aceppted.", addressToSend, portToSend);
-                    break;
-                }
-            }
-            printf("Team %s has connected.\n", datagram.data());
         case disconnected:
             while (true) {
                 socket->waitForReadyRead();
-                socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &addressToSend, &portToSend);
+                socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &strategyAddress, &strategyPort);
                 if (datagram.contains("Connection request")) {
                     datagram.remove(0, 20);
                     teamName = datagram.data();
-                    socket->writeDatagram("Request aceppted.", addressToSend, portToSend);
+                    socket->writeDatagram("Request aceppted.", strategyAddress, strategyPort);
+                    socket->waitForBytesWritten();
                     break;
                 }
             }

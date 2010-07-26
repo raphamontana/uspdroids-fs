@@ -21,7 +21,7 @@ class Simulator
 {
 public:
 
-    Simulator(unsigned int portToListen0, unsigned int portToListen1, unsigned int viewerPort);
+    Simulator(quint16 port0, quint16 port1, quint16 viewerPort);
 
     ~Simulator();
 
@@ -41,11 +41,7 @@ private:
 
     ViewersManager * vm;
 
-    quint32 chronometer;
-
     quint32 goals[2];
-
-    QString teamName[2];
 
 };
 

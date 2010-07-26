@@ -35,6 +35,10 @@ public slots:
 
 private:
 
+    QSplashScreen * splash;
+
+    FrontEnd * fe;
+
     bool exec;
 
     bool gui;

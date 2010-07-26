@@ -91,12 +91,12 @@ void Robot::setVelocidade(double esq, double dir)
     /** Velocidade maxima para as juntas: 20 * Raio da roda (2,5cm) = 0.5m/s */
     /** @todo Definir um padrao para esta velocidade */
 
-    // (14g.cm / 5450rpm -> ActionMotors : redução 7.5:1)
+    // (14g.cm / 5450rpm -> ActionMotors : reducao 7.5:1)
     //double rpm = 5450; // rpm
     //double torque = 0.001372931; // N.m
     //double reducao = 7.5/1;
 
-    //( 5mN.m/ 8000 rpm -> Fallhauber : redução 10:1 )
+    //( 5mN.m/ 8000 rpm -> Fallhauber : reducao 10:1 )
     double rpm = 8000;
     double torque = 0.005;
     double reducao = 10.0/1;
@@ -104,19 +104,19 @@ void Robot::setVelocidade(double esq, double dir)
     double vel_max = ((rpm / 60.0) / reducao) * M_PI;
     torque = torque*reducao;
 
-    dir = ( dir > vel_max ) ? vel_max : ( dir < -vel_max ) ? -vel_max : dir;
-    esq = ( esq > vel_max ) ? vel_max : ( esq < -vel_max ) ? -vel_max : esq;
+    dir *= vel_max/100.0;
+    esq *= vel_max/100.0;
 
     //seta velocidades das rodas
-    dJointSetHingeParam (suspensao[0],dParamVel, -dir); // Velocidade angular maxima (Hz)
-    dJointSetHingeParam(suspensao[0], dParamFMax, torque); // Torque (N.m)
+    dJointSetHingeParam (suspensao[0],dParamVel, -dir);     // Velocidade angular maxima (Hz)
+    dJointSetHingeParam(suspensao[0], dParamFMax, torque);  // Torque (N.m)
     dJointSetHingeParam (suspensao[1],dParamVel, -esq);
     dJointSetHingeParam(suspensao[1], dParamFMax, torque);
 }
 
-dReal* Robot::getPosicao()
+dReal Robot::getPosicao()
 {
-    return((dReal*) dBodyGetPosition(body));
+    return(*(dBodyGetPosition(body)));
 }
 
 void Robot::setPosicao(double x, double y, double z)

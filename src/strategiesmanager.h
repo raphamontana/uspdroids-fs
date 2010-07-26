@@ -9,7 +9,7 @@ public:
     /**
      * Obtem o endereco do modelo de mundo
      */
-    StrategiesManager(WorldModel * wm, quint16 portToListen0, quint16 portToListen1);
+    StrategiesManager(WorldModel * wm, quint16 port0, quint16 port1);
 
     /**
      *
@@ -43,8 +43,14 @@ private:
      */
     void decodeMessage(int strategy, QByteArray message);
 
+    /**
+     *
+     */
     WorldModel * wm;
 
+    /**
+     *
+     */
     StrategyConnection * sc[2];
 
 };

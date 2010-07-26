@@ -64,13 +64,13 @@ void Launcher::launch()
     if (!exec) {
         emit(quit());
     }
-    if (gui) {
+    else if (gui) {
         Q_INIT_RESOURCE(icons);
         QPixmap pixmap(":icons/splash.png");
-        QSplashScreen splash(pixmap);
-        splash.show();
-        FrontEnd fe;
-        fe.show();
+        splash = new QSplashScreen(pixmap);
+        splash->show();
+        fe = new FrontEnd;
+        fe->show();
     }
     else {
         Simulator * uspds;

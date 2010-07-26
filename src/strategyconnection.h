@@ -42,6 +42,14 @@ public:
      */
     void disconnectStrategy();
 
+    /**
+     *
+     */
+    QString getTeamName();
+
+    /**
+     *
+     */
     void run();
 
 private:
@@ -50,11 +58,11 @@ private:
 
     QUdpSocket * socket;
 
-    quint16 portToListen;
+    quint16 listenerPort;
 
-    QHostAddress addressToSend;
+    QHostAddress strategyAddress;
 
-    quint16 portToSend;
+    quint16 strategyPort;
 
     QByteArray commands;
 

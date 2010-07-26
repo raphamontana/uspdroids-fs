@@ -14,7 +14,7 @@
 
 #include "physics/ball.h"
 #include "physics/field.h"
-#include "physics/robot.h"
+#include "physics/team.h"
 #include "worldmodel.h"
 
 /**
@@ -62,6 +62,8 @@ public:
      */
     void gameStep();
 
+    void robotRelocation();
+
     /**
      * @brief Finalize the manager.
      *
@@ -81,15 +83,17 @@ private:
      */
     WorldModel * wm;
 
+    enum {Normal, FreeKick, PenaltyKick, GoalKick, FreeBall} gameState;
+
     dWorldID world;
 
     dSpaceID space;
 
-    Field * campo;
+    Field * field;
 
-    Ball * bola;
+    Ball * ball;
 
-    Robot * equipe[2][3];
+    Team * team[2];
 
     dJointGroupID contactgroup;
 };                          // end of class GameManager

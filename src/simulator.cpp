@@ -11,10 +11,10 @@
 
 #include "simulator.h"
 
-Simulator::Simulator(unsigned int portToListen0, unsigned int portToListen1, unsigned int viewerPort)
+Simulator::Simulator(quint16 port0, quint16 port1, quint16 viewerPort)
 {
     gm = new GameManager(&wm);
-    sm = new StrategiesManager(&wm, portToListen0, portToListen1);
+    sm = new StrategiesManager(&wm, port0, port1);
     vm = new ViewersManager(&wm, viewerPort);
 }
 
@@ -28,7 +28,7 @@ Simulator::~Simulator()
 void Simulator::initialize()
 {
     puts("Initializing simulator...");
-    chronometer = 0;
+    wm.chronometer = 0;
     goals[0]    = 0;
     goals[1]    = 0;
     gm->initialize();
@@ -42,37 +42,42 @@ void Simulator::initialize()
 
 void Simulator::execute()
 {
+    QMutex pause;                   // Terminar o pause;
     puts("Match started.");
     unsigned int tenMinutes = 36000;
-    while (chronometer < tenMinutes)
+    while (wm.chronometer < tenMinutes)
     {
+        pause.lock();
         sm->recvCommands();
         vm->recvCommands();
         gm->gameStep();
         sm->transmitData();
         vm->transmitData();
-        if (chronometer%60 == 0) {
-            printf("Time: %dmin %ds\n", chronometer/3600, chronometer%3600/60);
+        if (wm.chronometer%60 == 0) {
+            printf("Time: %dmin %ds\n", wm.chronometer/3600, wm.chronometer%3600/60);
+            if (wm.chronometer == 18000) {
+                puts("Second period.");
+                gm->robotRelocation();
+            }
         }
-        chronometer++;
+        wm.chronometer++;
+        pause.unlock();
     }
 }
 
 void Simulator::finish()
 {
-    printf("Time: %dmin %ds\n", chronometer/3600, chronometer%3600/60);
+    printf("Time: %dmin %ds\n", wm.chronometer/3600, wm.chronometer%3600/60);
     puts("End of match.");
-    printf("Final score: %s %d x %d %s\n", teamName[0].toAscii().data(), goals[0], goals[1], teamName[1].toAscii().data());
+    printf("Final score: %s %d x %d %s\n", wm.team[0].name.toAscii().data(), goals[0], goals[1], wm.team[1].name.toAscii().data());
     if (goals[0] > goals[1]) {
-        printf("%s won.\n", teamName[0].toAscii().data());
+        printf("%s won.\n", wm.team[0].name.toAscii().data());
     } else if (goals[0] < goals[1]) {
-        printf("%s won.\n", teamName[1].toAscii().data());
+        printf("%s won.\n", wm.team[1].name.toAscii().data());
     } else puts("Draw.");
     puts("Finalizing simulator.");
     gm->finalize();
     sm->finalize();
     vm->finalize();
-    teamName[0].clear();
-    teamName[1].clear();
     puts("Simulator stopped.");
 }

@@ -11,11 +11,11 @@
 
 #include "strategiesmanager.h"
 
-StrategiesManager::StrategiesManager(WorldModel * wm, quint16 portToListen0, quint16 portToListen1)
+StrategiesManager::StrategiesManager(WorldModel * wm, quint16 port0, quint16 port1)
 {
     this->wm = wm;
-    sc[0] = new StrategyConnection(portToListen0);
-    sc[1] = new StrategyConnection(portToListen1);
+    sc[0] = new StrategyConnection(port0);
+    sc[1] = new StrategyConnection(port1);
 }
 
 void StrategiesManager::initialize()
@@ -27,8 +27,7 @@ void StrategiesManager::initialize()
 void StrategiesManager::waitStrategies() {
     sc[0]->wait();
     sc[1]->wait();
-    getchar();
-    exit(2);
+    //wm->team[0].name = sc[0]->getTeamName();
 }
 
 void StrategiesManager::recvCommands()
@@ -77,21 +76,16 @@ void StrategiesManager::finalize()
 void StrategiesManager::decodeMessage(int strategy, QByteArray message)
 {
     int read;
-    if (strategy == 0 || strategy == 1) {
-        read = sscanf(message.data(), "%d %d %d %d %d %d",
-               &wm->team[strategy].robot[0].leftWheel, &wm->team[strategy].robot[0].rightWheel,
-               &wm->team[strategy].robot[1].leftWheel, &wm->team[strategy].robot[1].rightWheel,
-               &wm->team[strategy].robot[2].leftWheel, &wm->team[strategy].robot[2].rightWheel);
-        if (read != 6) {
-            qWarning("Badly-formed message received from strategy.");
-        }
-        else {
-            wm->team[strategy].robot[0].normalizeWheelsSpeeds();
-            wm->team[strategy].robot[1].normalizeWheelsSpeeds();
-            wm->team[strategy].robot[2].normalizeWheelsSpeeds();
-        }
+    read = sscanf(message.data(), "%d %d %d %d %d %d",
+           &wm->team[strategy].robot[0].leftWheel, &wm->team[strategy].robot[0].rightWheel,
+           &wm->team[strategy].robot[1].leftWheel, &wm->team[strategy].robot[1].rightWheel,
+           &wm->team[strategy].robot[2].leftWheel, &wm->team[strategy].robot[2].rightWheel);
+    if (read != 6) {
+        qWarning("Badly-formed message received from strategy.");
     }
     else {
-        qWarning("Badly-formed message received.");
+        wm->team[strategy].robot[0].normalizeWheelsSpeeds();
+        wm->team[strategy].robot[1].normalizeWheelsSpeeds();
+        wm->team[strategy].robot[2].normalizeWheelsSpeeds();
     }
 }

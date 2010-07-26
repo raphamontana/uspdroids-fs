@@ -11,26 +11,11 @@
 
 #include "team.h"
 
-Team::Team(dWorldID world, dSpaceID space, int lado)
+Team::Team(dWorldID world, dSpaceID space)
 {
     robo1 = new Robot(world, space);
     robo2 = new Robot(world, space);
     robo3 = new Robot(world, space);
-    if (lado == 0) {
-        robo1->setPosicao(0.30,        -0.20,        0.10);
-        robo2->setPosicao(0.30 + 0.20, -0.20 + 0.20, 0.10);
-        robo3->setPosicao(0.30 + 0.40, -0.20 + 0.40, 0.10);
-    }
-    else if (lado == 1) {
-        robo1->setPosicao(-0.50,        0.-0, 0.10);
-        robo2->setPosicao(-0.50 + 0.10, 0.10, 0.10);
-        robo3->setPosicao(-0.50 + 0.20, 0.20, 0.10);
-    }
-    else {
-        robo1->setPosicao(0.0, 0.0, 0.0);
-        robo2->setPosicao(0.0, 0.0, 0.0);
-        robo3->setPosicao(0.0, 0.0, 0.0);
-    }
 }
 
 
@@ -50,7 +35,7 @@ void Team::setVelocidades(WorldModel * wm, int team)
 }
 
 
-dReal* Team::getPosicao(int robo)
+dReal Team::getPosicao(int robo)
 {
     if (robo == 0) return(robo1->getPosicao());
     else if (robo == 1) return(robo2->getPosicao());
@@ -58,10 +43,10 @@ dReal* Team::getPosicao(int robo)
 }
 
 
-dReal* Team::getAngulo(int team)
+dReal Team::getAngulo(int team)
 {
     dReal ang;
-    return &ang;
+    return ang;
     /*
     if (team == 0)
          return(robo1->getAngulo());
