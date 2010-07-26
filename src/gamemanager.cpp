@@ -19,14 +19,14 @@ GameManager::GameManager(WorldModel * wm)
     dWorldSetGravity(world, 0, 0, -9.8);
     dWorldSetCFM(world, 1e-3);
     space = dHashSpaceCreate(0);
-    campo = new ODE_Campo(space);
-    bola = new ODE_Bola(world, space);
-    equipe[0][0] = new ODE_Robo(world, space);
-    equipe[0][1] = new ODE_Robo(world, space);
-    equipe[0][2] = new ODE_Robo(world, space);
-    equipe[1][0] = new ODE_Robo(world, space);
-    equipe[1][1] = new ODE_Robo(world, space);
-    equipe[1][2] = new ODE_Robo(world, space);
+    campo = new Field(space);
+    bola = new Ball(world, space);
+    equipe[0][0] = new Robot(world, space);
+    equipe[0][1] = new Robot(world, space);
+    equipe[0][2] = new Robot(world, space);
+    equipe[1][0] = new Robot(world, space);
+    equipe[1][1] = new Robot(world, space);
+    equipe[1][2] = new Robot(world, space);
     contactgroup = dJointGroupCreate(0);
 }
 

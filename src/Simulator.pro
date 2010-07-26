@@ -16,7 +16,11 @@ SOURCES += main.cpp \
     viewersmanager.cpp \
     strategiesmanager.cpp \
     launcher.cpp \
-    front-end/janelaprincipal.cpp
+    physics/team.cpp \
+    physics/robot.cpp \
+    physics/field.cpp \
+    physics/ball.cpp \
+    gui/frontend.cpp
 HEADERS += simulator.h \
     gamemanager.h \
     worldmodel.h \
@@ -28,9 +32,8 @@ HEADERS += simulator.h \
     physics/robot.h \
     physics/field.h \
     physics/ball.h \
-    front-end/janelaprincipal.h
+    gui/frontend.h
 LIBS += -lode_double
 QMAKE_CXXFLAGS += -Wall \
     -Wextra
 RESOURCES += icons.qrc
-FORMS += front-end/janelaprincipal.ui

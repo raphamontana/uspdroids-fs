@@ -14,7 +14,7 @@
 
 #include <QtGui/QApplication>
 #include <QSplashScreen>
-#include "front-end/janelaprincipal.h"
+#include "gui/frontend.h"
 #include "simulator.h"
 
 class Launcher : public QObject

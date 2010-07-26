@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
     Launcher launcher(argc, argv);
-    QTimer::singleShot(0, &launcher, SLOT(launch()));
     QObject::connect(&launcher, SIGNAL(quit()), &app, SLOT(quit()));
+    QTimer::singleShot(0, &launcher, SLOT(launch()));
     return(app.exec());
 }

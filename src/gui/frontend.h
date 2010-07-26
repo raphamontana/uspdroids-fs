@@ -1,23 +1,13 @@
-#ifndef JANELAPRINCIPAL_H
-#define JANELAPRINCIPAL_H
+#ifndef FRONT_END_H
+#define FRONT_END_H
 
 #include <QMainWindow>
 
-namespace Ui {
-    class JanelaPrincipal;
-}
-
-class JanelaPrincipal : public QMainWindow {
+class FrontEnd : public QMainWindow {
     Q_OBJECT
 public:
-    JanelaPrincipal(QWidget *parent = 0);
-    ~JanelaPrincipal();
-
-protected:
-    void changeEvent(QEvent *e);
-
-private:
-    Ui::JanelaPrincipal *ui;
+    FrontEnd(QWidget *parent = 0);
+    ~FrontEnd();
 };
 
-#endif // JANELAPRINCIPAL_H
+#endif // FRONT_END_H

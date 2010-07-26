@@ -12,8 +12,6 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
-#define dDOUBLE
-#include <ode/ode.h>
 #include "physics/ball.h"
 #include "physics/field.h"
 #include "physics/robot.h"
@@ -87,11 +85,11 @@ private:
 
     dSpaceID space;
 
-    ODE_Campo *campo;
+    Field * campo;
 
-    ODE_Bola *bola;
+    Ball * bola;
 
-    ODE_Robo* equipe[2][3];
+    Robot * equipe[2][3];
 
     dJointGroupID contactgroup;
 };                          // end of class GameManager
