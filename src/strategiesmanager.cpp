@@ -25,8 +25,11 @@ void StrategiesManager::initialize()
 }
 
 void StrategiesManager::waitStrategies() {
+    sc[0]->waitRadio();
+    sc[1]->waitRadio();
     sc[0]->wait();
     sc[1]->wait();
+    exit(0);
     //wm->team[0].name = sc[0]->getTeamName();
 }
 

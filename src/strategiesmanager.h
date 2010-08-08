@@ -1,7 +1,7 @@
 #ifndef STRATEGIES_MANAGER_H
 #define STRATEGIES_MANAGER_H
 
-#include "strategyconnection.h"
+#include "connection/strategyconnection.h"
 
 class StrategiesManager
 {

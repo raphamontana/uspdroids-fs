@@ -7,9 +7,9 @@ FrontEnd::FrontEnd(QWidget *parent) : QMainWindow(parent)
 
 void FrontEnd::setupUi()
 {
-    if (this->objectName().isEmpty())
-        this->setObjectName(QString::fromUtf8("MainWindow"));
-    this->resize(600, 400);
+    if (objectName().isEmpty())
+        setObjectName(QString::fromUtf8("MainWindow"));
+    resize(600, 400);
     actionExit = new QAction(this);
     actionExit->setObjectName(QString::fromUtf8("actionExit"));
     actionAbout = new QAction(this);
@@ -19,7 +19,7 @@ void FrontEnd::setupUi()
     pushButton = new QPushButton(centralWidget);
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
     pushButton->setGeometry(QRect(250, 160, 90, 27));
-    this->setCentralWidget(centralWidget);
+    setCentralWidget(centralWidget);
     menuBar = new QMenuBar(this);
     menuBar->setObjectName(QString::fromUtf8("menuBar"));
     menuBar->setGeometry(QRect(0, 0, 600, 27));
@@ -27,10 +27,10 @@ void FrontEnd::setupUi()
     menuSimulator->setObjectName(QString::fromUtf8("menuSimulator"));
     menuHelp = new QMenu(menuBar);
     menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
-    this->setMenuBar(menuBar);
+    setMenuBar(menuBar);
     statusBar = new QStatusBar(this);
     statusBar->setObjectName(QString::fromUtf8("statusBar"));
-    this->setStatusBar(statusBar);
+    setStatusBar(statusBar);
 
     menuBar->addAction(menuSimulator->menuAction());
     menuBar->addAction(menuHelp->menuAction());
@@ -46,7 +46,7 @@ FrontEnd::~FrontEnd()
 
 void FrontEnd::retranslateUi()
 {
-    this->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
+    setWindowTitle(QApplication::translate("MainWindow", "USPDroids", 0, QApplication::UnicodeUTF8));
     actionExit->setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
     actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
     pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0, QApplication::UnicodeUTF8));
