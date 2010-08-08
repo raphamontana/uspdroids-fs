@@ -11,9 +11,10 @@
 
 #include "strategyconnection.h"
 
-StrategyConnection::StrategyConnection(quint16 port)
+StrategyConnection::StrategyConnection(quint16 port0, quint16 port1)
 {
-    listenerPort = port;
+    vision = new VisionConnection(port0);
+    radio = new RadioConnection(port1);
     state = unbinded;
 }
 
@@ -45,6 +46,7 @@ void StrategyConnection::run()
     datagram.resize(1024);
     switch (state) {
         case receiving:
+        /*
             if (socket->waitForReadyRead(17)) {
                 socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &host, &port);
                 if (host == strategyAddress && port == strategyPort) {
@@ -60,19 +62,25 @@ void StrategyConnection::run()
                 }
             }
             state = sending;
+        */
             break;
         case sending:
+            /*
             socket->writeDatagram(commands, strategyAddress, strategyPort);
             socket->waitForBytesWritten();
             state = receiving;
+            */
             break;
         case unbinded:
+            /*
             socket = new QUdpSocket;
             if (!socket->bind(listenerPort, QUdpSocket::DontShareAddress)) {
                 puts("Could not bind the socket.");
                 exit(0);
             }
+            */
         case disconnected:
+            /*
             while (true) {
                 socket->waitForReadyRead();
                 socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &strategyAddress, &strategyPort);
@@ -86,6 +94,7 @@ void StrategyConnection::run()
             }
             printf("Team %s has connected.\n", datagram.data());
             state = sending;
+            */
             break;
         default:
             break;

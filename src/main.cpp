@@ -17,13 +17,13 @@
     along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "launcher.h"
+#include "simulator.h"
 
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
     QApplication app(argc, argv);
-    Launcher launcher(argc, argv);
-    QObject::connect(&launcher, SIGNAL(quit()), &app, SLOT(quit()));
-    QTimer::singleShot(0, &launcher, SLOT(launch()));
+    Simulator * uspds = new Simulator(argc, argv);
+    QObject::connect(uspds, SIGNAL(quit()), &app, SLOT(quit()));
+    QTimer::singleShot(0, uspds, SLOT(launch()));
     return(app.exec());
 }

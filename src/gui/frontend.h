@@ -10,8 +10,10 @@
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
+#include <QtGui/QSplashScreen>
 #include <QtGui/QStatusBar>
 #include <QtGui/QWidget>
+#include <unistd.h>
 
 class FrontEnd : public QMainWindow
 {
@@ -30,6 +32,7 @@ private:
 
     void retranslateUi();
 
+    QSplashScreen * splash;
     QAction *actionExit;
     QAction *actionAbout;
     QWidget *centralWidget;

@@ -6,10 +6,11 @@
 class StrategiesManager
 {
 public:
+
     /**
      * Obtem o endereco do modelo de mundo
      */
-    StrategiesManager(WorldModel * wm, quint16 port0, quint16 port1);
+    StrategiesManager(WorldModel * wm, quint16 port0, quint16 port1, quint16 port2, quint16 port3);
 
     /**
      *

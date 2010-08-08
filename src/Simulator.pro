@@ -13,7 +13,6 @@ SOURCES += main.cpp \
     gamemanager.cpp \
     viewersmanager.cpp \
     strategiesmanager.cpp \
-    launcher.cpp \
     physics/team.cpp \
     physics/robot.cpp \
     physics/field.cpp \
@@ -24,7 +23,6 @@ SOURCES += main.cpp \
     connection/vision.cpp \
     connection/strategyconnection.cpp
 HEADERS += simulator.h \
-    launcher.h \
     gamemanager.h \
     strategiesmanager.h \
     viewersmanager.h \

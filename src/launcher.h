@@ -12,8 +12,6 @@
 #ifndef LAUNCHER_H
 #define LAUNCHER_H
 
-#include <QtGui/QApplication>
-#include <QSplashScreen>
 #include "gui/frontend.h"
 #include "simulator.h"
 
@@ -35,6 +33,8 @@ public slots:
 
 private:
 
+    Simulator * uspds;
+
     QSplashScreen * splash;
 
     FrontEnd * fe;
@@ -49,11 +49,8 @@ private:
 
     bool log;
 
-    bool debug;
-
     int loop;
 
-    bool waitPlayCommand;
 };
 
 #endif // LAUNCHER_H

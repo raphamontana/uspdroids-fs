@@ -13,9 +13,8 @@
 #define STRATEGY_CONNECTION_H
 
 #include "../worldmodel.h"
-#include <QMutex>
-#include <QSemaphore>
-#include <QtNetwork>
+#include "radio.h"
+#include "vision.h"
 
 class StrategyConnection : public QThread
 {
@@ -25,7 +24,7 @@ public:
     /**
      * Setup the port number and set the connection to its initial state
      */
-    StrategyConnection(quint16 port);
+    StrategyConnection(quint16 port1, quint16 port2);
 
     /**
      *
@@ -54,11 +53,11 @@ public:
 
 private:
 
+    RadioConnection * radio;
+
+    VisionConnection * vision;
+
     enum {unbinded, disconnected, receiving, sending} connectionStatus, state;
-
-    QUdpSocket * socket;
-
-    quint16 listenerPort;
 
     QHostAddress strategyAddress;
 

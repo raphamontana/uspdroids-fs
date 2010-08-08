@@ -24,6 +24,8 @@ class ViewersManager : QObject
 
 public:
 
+    ViewersManager(WorldModel * wm);
+
     ViewersManager(WorldModel * wm, quint16 viewerPort);
 
     void initialize();

@@ -11,11 +11,11 @@
 
 #include "strategiesmanager.h"
 
-StrategiesManager::StrategiesManager(WorldModel * wm, quint16 port0, quint16 port1)
+StrategiesManager::StrategiesManager(WorldModel * wm, quint16 strategy1Port1, quint16 strategy1Port2, quint16 strategy2Port1, quint16 strategy2Port2)
 {
     this->wm = wm;
-    sc[0] = new StrategyConnection(port0);
-    sc[1] = new StrategyConnection(port1);
+    sc[0] = new StrategyConnection(strategy1Port1, strategy1Port2);
+    sc[1] = new StrategyConnection(strategy2Port1, strategy2Port2);
 }
 
 void StrategiesManager::initialize()
@@ -25,11 +25,8 @@ void StrategiesManager::initialize()
 }
 
 void StrategiesManager::waitStrategies() {
-    sc[0]->waitRadio();
-    sc[1]->waitRadio();
     sc[0]->wait();
     sc[1]->wait();
-    exit(0);
     //wm->team[0].name = sc[0]->getTeamName();
 }
 
