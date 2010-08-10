@@ -13,6 +13,7 @@
 #define SIMULATOR_H
 
 #include "gui/frontend.h"
+#include "configuration.h"
 #include "gamemanager.h"
 #include "strategiesmanager.h"
 #include "viewersmanager.h"
@@ -24,7 +25,7 @@ class Simulator : public QObject
 
 public:
 
-    Simulator(int argc, char * argv[]);
+    Simulator(Configuration conf);
 
     ~Simulator();
 
@@ -37,8 +38,6 @@ public slots:
     void launch();
 
 private:
-
-    void parser(int argc, char * argv[]);
 
     void initialize();
 
@@ -54,21 +53,10 @@ private:
 
     ViewersManager * vm;
 
-    quint16 strategyPort1[2];
-
-    quint16 strategyPort2[2];
-
-    quint16 viewerPort;
-
     quint32 goals[2];
 
-    //Starters flags
-    int simulations;    /// Number of executions.
-    bool exec;          /// Start or not the simulator.
-    bool noia1;         /// Do not start the strategy for team 1.
-    bool noia2;         /// Do not start the strategy for team 2.
-    bool log;           /// Saves a log file of the game.
-    bool gui;           /// Show the graphical user interface.
+    Configuration conf;
+
 };
 
 #endif // SIMULATOR_H

@@ -1,10 +1,10 @@
 # -------------------------------------------------
 # Project created by USPDroids
 # -------------------------------------------------
-QT += core
-QT += network
-QT += gui
-TARGET = Simulator
+QT += core \
+    network \
+    gui
+TARGET = uspdroidsss
 TEMPLATE = app
 RESOURCES += icons.qrc
 SOURCES += main.cpp \
@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     physics/engine.cpp \
     connection/radio.cpp \
     connection/vision.cpp \
-    connection/strategyconnection.cpp
+    connection/strategyconnection.cpp \
+    configuration.cpp
 HEADERS += simulator.h \
     gamemanager.h \
     strategiesmanager.h \
@@ -35,7 +36,8 @@ HEADERS += simulator.h \
     physics/engine.h \
     connection/radio.h \
     connection/vision.h \
-    connection/strategyconnection.h
+    connection/strategyconnection.h \
+    configuration.h
 QMAKE_CXXFLAGS += -Wall \
     -Wextra
 win32:LIBS += -lode_double
