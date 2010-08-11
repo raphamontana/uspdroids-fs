@@ -14,17 +14,7 @@
 Simulator::Simulator(Configuration conf)
 {
     this->conf = conf;
-    if (!conf.exec) {
-        emit(quit());
-    }
-    else if (conf.gui) {
-        Q_INIT_RESOURCE(icons);
-        FrontEnd * fe = new FrontEnd();
-        fe->show();
-    }
-    else {
-        QTimer::singleShot(0, this, SLOT(launch()));
-    }
+    isPaused = false;
     gm = new GameManager(&wm);
     sm = new StrategiesManager(&wm, conf.strategyPort1[0], conf.strategyPort2[0], conf.strategyPort1[1], conf.strategyPort2[1]);
     vm = new ViewersManager(&wm, conf.viewerPort);
@@ -55,17 +45,16 @@ void Simulator::initialize()
 void Simulator::execute()
 {
     while (conf.simulations-- > 0) {
-        QMutex pause;                   // Terminar o pause;
         puts("Match started.");
-        unsigned int tenMinutes = 36000;
-        while (wm.chronometer < tenMinutes)
-        {
-            pause.lock();
+        const unsigned int tenMinutes = 36000;        /// = 60fps * 60s * 10min
+        while (wm.chronometer < tenMinutes) {
+            pauseLock.lock();
             sm->recvCommands();
             vm->recvCommands();
-            gm->gameStep();
+            gm->gameStep(0.014);
             sm->transmitData();
             vm->transmitData();
+            gm->gameStep(0.002);    /// Tempo processamento da visao
             if (wm.chronometer%60 == 0) {
                 printf("Time: %dmin %ds\n", wm.chronometer/3600, wm.chronometer%3600/60);
                 if (wm.chronometer == 18000) {
@@ -74,7 +63,7 @@ void Simulator::execute()
                 }
             }
             wm.chronometer++;
-            pause.unlock();
+            pauseLock.unlock();
         }
     }
 }
@@ -98,8 +87,29 @@ void Simulator::finish()
 
 void Simulator::launch()
 {
-    initialize();
-    execute();
-    finish();
-    emit(quit());
+    if (!conf.exec) {
+        emit(quit());
+    }
+    else if (conf.gui) {
+        Q_INIT_RESOURCE(icons);
+        FrontEnd * fe = new FrontEnd();
+        fe->show();
+    }
+    else {
+        emit(quit());
+        initialize();
+        execute();
+        finish();
+        emit(quit());
+    }
+}
+
+void Simulator::pause()
+{
+    if (isPaused) {
+        pauseLock.unlock();
+    }
+    else {
+        pauseLock.lock();
+    }
 }

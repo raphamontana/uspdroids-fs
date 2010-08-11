@@ -17,7 +17,7 @@
     along with the USPDroids Football Simulator.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#include <QtGui/QApplication>
 #include "configuration.h"
 #include "simulator.h"
 
@@ -27,8 +27,8 @@ int main(int argc, char * argv[])
     puts("USPDroids Football Simulator v2.5");
     puts("Copyright (C) 2010 Robot Learning Laboratory.\n");
     Configuration conf = Configuration::parse(argc, argv);
-    Simulator uspds(conf);
-    QObject::connect(&uspds, SIGNAL(quit()), &app, SLOT(quit()));
-    QTimer::singleShot(0, &uspds, SLOT(launch()));
+    Simulator uspdroidsfs(conf);
+    QObject::connect(&uspdroidsfs, SIGNAL(quit()), &app, SLOT(quit()));
+    QTimer::singleShot(0, &uspdroidsfs, SLOT(launch()));
     return(app.exec());
 }

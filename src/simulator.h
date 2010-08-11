@@ -12,6 +12,7 @@
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
+#include <QMutex>
 #include "gui/frontend.h"
 #include "configuration.h"
 #include "gamemanager.h"
@@ -37,6 +38,8 @@ public slots:
 
     void launch();
 
+    void pause();
+
 private:
 
     void initialize();
@@ -44,6 +47,9 @@ private:
     void execute();
 
     void finish();
+
+    bool isPaused;
+    QMutex pauseLock;               /// The pause system.
 
     WorldModel wm;
 

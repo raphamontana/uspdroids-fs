@@ -60,7 +60,7 @@ public:
      * changes in real-time, but the essence of soccer is not
      * lost.
      */
-    void gameStep();
+    void gameStep(double timeStep);
 
     void robotRelocation();
 

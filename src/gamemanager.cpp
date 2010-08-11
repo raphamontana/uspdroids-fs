@@ -45,12 +45,12 @@ void GameManager::initialize()
     wm->setInitialPosition(1);
 }
 
-void GameManager::gameStep()
+void GameManager::gameStep(double timeStep)
 {
     team[0]->setVelocidades(wm, 0);
     team[1]->setVelocidades(wm, 1);
     dSpaceCollide(space, this, &colisao);   // Encontra as colisoes do espaco e chama o callback
-    dWorldStep(world, 0.016);               // Simula 16ms = 60fps
+    dWorldStep(world, timeStep);            // Simula 16ms = 60fps
     dJointGroupEmpty(contactgroup);         // Limpa as interacoes
 }
 
