@@ -18,6 +18,7 @@
 */
 
 #include <QtGui/QApplication>
+#include <QTimer>
 #include "configuration.h"
 #include "simulator.h"
 
@@ -29,6 +30,16 @@ int main(int argc, char * argv[])
     Configuration conf = Configuration::parse(argc, argv);
     Simulator uspdroidsfs(conf);
     QObject::connect(&uspdroidsfs, SIGNAL(quit()), &app, SLOT(quit()));
-    QTimer::singleShot(0, &uspdroidsfs, SLOT(launch()));
+    if (!conf.isConfOK()) {   // Quit if the configuration object is not ok.
+        emit(app.quit());
+    }
+    else if (conf.useGUI()) {
+        Q_INIT_RESOURCE(icons);
+        FrontEnd * fe = new FrontEnd();
+        fe->show();
+    }
+    else {
+        QTimer::singleShot(0, &uspdroidsfs, SLOT(launch()));
+    }
     return(app.exec());
 }

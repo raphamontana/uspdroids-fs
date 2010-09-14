@@ -14,30 +14,35 @@
 StrategiesManager::StrategiesManager(WorldModel * wm, quint16 strategy1Port1, quint16 strategy1Port2, quint16 strategy2Port1, quint16 strategy2Port2)
 {
     this->wm = wm;
-    sc[0] = new StrategyConnection(strategy1Port1, strategy1Port2);
-    sc[1] = new StrategyConnection(strategy2Port1, strategy2Port2);
+    radio[0] = new RadioConnection(strategy1Port1);
+    vision[0] = new VisionConnection(strategy1Port2);
+    radio[1] = new RadioConnection(strategy2Port1);
+    vision[1] = new VisionConnection(strategy2Port2);
 }
 
-void StrategiesManager::initialize()
+void StrategiesManager::initialise()
 {
-    sc[0]->start();
-    sc[1]->start();
+    radio[0]->start();
+    vision[0]->start();
+    radio[1]->start();
+    vision[1]->start();
 }
 
 void StrategiesManager::waitStrategies() {
-    sc[0]->wait();
-    sc[1]->wait();
-    //wm->team[0].name = sc[0]->getTeamName();
+    radio[0]->wait();
+    vision[0]->wait();
+    radio[1]->wait();
+    vision[1]->wait();
 }
 
 void StrategiesManager::recvCommands()
 {
-    sc[0]->start();
-    sc[1]->start();
-    sc[0]->wait();
-    sc[1]->wait();
-    decodeMessage(0, sc[0]->getMessage());
-    decodeMessage(1, sc[1]->getMessage());
+    radio[0]->start();
+    radio[1]->start();
+    radio[0]->wait();
+    radio[1]->wait();
+    decodeMessage(0, radio[0]->getMessage());
+    decodeMessage(1, radio[1]->getMessage());
 }
 
 void StrategiesManager::transmitData()
@@ -51,7 +56,7 @@ void StrategiesManager::transmitData()
             wm->team[1].robot[0].x, wm->team[1].robot[0].y, wm->team[1].robot[0].angxy,
             wm->team[1].robot[1].x, wm->team[1].robot[1].y, wm->team[1].robot[1].angxy,
             wm->team[1].robot[2].x, wm->team[1].robot[2].y, wm->team[1].robot[2].angxy);
-    sc[0]->setMessageToSend(message);
+    vision[0]->setMessageToSend(message);
     sprintf(message.data(), "O %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
             wm->ball.x, wm->ball.y,
             wm->team[1].robot[0].x, wm->team[1].robot[0].y, wm->team[1].robot[0].angxy,
@@ -60,17 +65,19 @@ void StrategiesManager::transmitData()
             wm->team[0].robot[0].x, wm->team[0].robot[0].y, wm->team[0].robot[0].angxy,
             wm->team[0].robot[1].x, wm->team[0].robot[1].y, wm->team[0].robot[1].angxy,
             wm->team[0].robot[2].x, wm->team[0].robot[2].y, wm->team[0].robot[2].angxy);
-    sc[1]->setMessageToSend(message);
-    sc[0]->start();
-    sc[1]->start();
-    sc[0]->wait();
-    sc[1]->wait();
+    vision[1]->setMessageToSend(message);
+    vision[0]->start();
+    vision[1]->start();
+    vision[0]->wait();
+    vision[1]->wait();
 }
 
 void StrategiesManager::finalize()
 {
-    sc[0]->disconnectStrategy();
-    sc[1]->disconnectStrategy();
+    radio[0]->disconnectStrategy();
+    radio[1]->disconnectStrategy();
+    vision[0]->disconnectStrategy();
+    vision[1]->disconnectStrategy();
 }
 
 void StrategiesManager::decodeMessage(int strategy, QByteArray message)
@@ -88,4 +95,12 @@ void StrategiesManager::decodeMessage(int strategy, QByteArray message)
         wm->team[strategy].robot[1].normalizeWheelsSpeeds();
         wm->team[strategy].robot[2].normalizeWheelsSpeeds();
     }
+}
+
+const char * StrategiesManager::getTeamName(int i)
+{
+    //return(teamName.toStdString().data());
+    if (i) return(radio[1]->getTeamName());
+    else return(radio[0]->getTeamName());
+
 }

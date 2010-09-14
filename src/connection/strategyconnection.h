@@ -44,12 +44,7 @@ public:
     /**
      *
      */
-    QString getTeamName();
-
-    /**
-     *
-     */
-    void run();
+    const char * getTeamName();
 
 private:
 

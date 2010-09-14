@@ -16,29 +16,42 @@
 #include <QSemaphore>
 #include <QtNetwork>
 
+/**
+ * Class responsable for receiveing commands from the strategy and propagate them to the simulator core.
+ */
 class RadioConnection : public QThread
 {
 public:
 
     RadioConnection(quint16 port);
 
-    void run();
+    void disconnectStrategy();      /// Close the socket.
 
-    void disconnectStrategy();
+    QByteArray getMessage();        /// @return The message received.
 
-    void send(QByteArray datagram);
+    const char * getTeamName();     /// @return The name of the connected team.
 
 private:
 
-    QUdpSocket * socket;
+    void run();                     /// Start a new thread.
 
-    quint16 port;
+    void connectStrategy();         /// Wait for the strategy connection.
 
-    QByteArray teamName;
+    void recv();                    /// Wait 17ms for a message from the strategy.
 
-    QHostAddress strategyAddress;
+    QUdpSocket * socket;            ///  Object that allows you to send and receive UDP datagrams.
 
-    quint16 strategyPort;
+    quint16 port;                   /// Port to bind the socket.
+
+    QByteArray teamName;            /// Name of the connected strategy.
+
+    QHostAddress strategyAddress;   /// Address of the connected strategy.
+
+    quint16 strategyPort;           /// Port of connection of the strategy.
+
+    bool isConnected;
+
+    QByteArray command;
 
 };
 

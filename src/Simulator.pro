@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     connection/radio.cpp \
     connection/vision.cpp \
     connection/strategyconnection.cpp \
-    configuration.cpp
+    configuration.cpp \
+    referee/referee.cpp
 HEADERS += simulator.h \
     gamemanager.h \
     strategiesmanager.h \
@@ -37,7 +38,8 @@ HEADERS += simulator.h \
     connection/radio.h \
     connection/vision.h \
     connection/strategyconnection.h \
-    configuration.h
+    configuration.h \
+    referee/referee.h
 QMAKE_CXXFLAGS += -Wall \
     -Wextra
 win32:LIBS += -lode_double

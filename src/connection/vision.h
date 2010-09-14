@@ -16,21 +16,38 @@
 #include <QSemaphore>
 #include <QtNetwork>
 
-class VisionConnection
+/**
+ * Class responsable for sending robots coordenates to the strategy.
+ */
+class VisionConnection : public QThread
 {
 public:
 
     VisionConnection(quint16 port);
 
-    void receive();
+    void disconnectStrategy();      /// Close the socket.
 
-    void run();
+    void setMessageToSend(QByteArray datagram);   /// Set a message to be sent.
 
 private:
 
-    QUdpSocket * socket;
+    void run();                     /// Start a new thread to wait for the strategy connection.
 
-    quint16 port;
+    void connectStrategy();         /// Wait for the strategy connection.
+
+    void send();                    /// Send a message to the strategy.
+
+    QUdpSocket * socket;            ///  Object that allows you to send and receive UDP datagrams.
+
+    quint16 port;                   /// Port to bind the socket.
+
+    QHostAddress strategyAddress;   /// Address of the connected strategy.
+
+    quint16 strategyPort;           /// Port of connection of the strategy.
+
+    bool isConnected;
+
+    QByteArray messageToSend;
 
 };
 

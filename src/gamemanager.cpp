@@ -40,9 +40,8 @@ GameManager::~GameManager()
     dCloseODE();
 }
 
-void GameManager::initialize()
+void GameManager::initialise()
 {
-    wm->setInitialPosition(1);
 }
 
 void GameManager::gameStep(double timeStep)
@@ -58,11 +57,12 @@ void GameManager::finalize()
 {
 }
 
-void GameManager::robotRelocation()
+void GameManager::robotRelocation(GameState gs, unsigned int chronometer)
 {
-    switch (gameState) {
+    int period = (chronometer < 36000) ? 1 : 2;
+    switch (gs) {
         case Normal:
-            wm->setInitialPosition(1);
+            wm->setInitialPosition(period);
             break;
         case FreeKick:
             break;

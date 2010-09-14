@@ -20,48 +20,52 @@
 #include "viewersmanager.h"
 #include "worldmodel.h"
 
+/**
+ * The main class of the program.
+ * This class is responsable for connect the strategies, initialise, execute and terminate the simulations.
+ */
 class Simulator : public QObject
 {
     Q_OBJECT
 
 public:
 
-    Simulator(Configuration conf);
+    Simulator(Configuration conf);  /// Alloc resources for the simulator.
 
-    ~Simulator();
+    ~Simulator();           /// Free allocated resources.
 
 signals:
 
-    void quit();
+    void quit();            /// Signal emitted to the application when the simulator is ready to exit.
 
 public slots:
 
-    void launch();
+    void launch();          /// Receives the signal to start the match when doesn't use the GUI.
 
-    void pause();
+    void pause();           /// Receives the signal to pause/continue the match.
 
 private:
 
-    void initialize();
+    void initialise();      /// Initialise the managers.
 
-    void execute();
+    void execute();         /// Reset and start the match.
 
-    void finish();
+    void finish();          /// Finalize the managers.
 
     bool isPaused;
-    QMutex pauseLock;               /// The pause system.
+    QMutex pauseLock;       /// The pause system.
 
-    WorldModel wm;
+    WorldModel wm;          /// Object that stores the global positioning.
 
-    GameManager * gm;
+    GameManager * gm;       /// Core manager.
 
-    StrategiesManager * sm;
+    StrategiesManager * sm; /// Manages connection with the strategies.
 
-    ViewersManager * vm;
+    ViewersManager * vm;    /// Manages connection with the viewers.
 
-    quint32 goals[2];
+    quint32 goals[2];       /// Score of each team.
 
-    Configuration conf;
+    Configuration conf;     /// Configuration object of the simulator.
 
 };
 

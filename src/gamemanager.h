@@ -17,6 +17,8 @@
 #include "physics/team.h"
 #include "worldmodel.h"
 
+typedef enum {Normal, FreeKick, PenaltyKick, GoalKick, FreeBall} GameState;
+
 /**
  * @class GameManager
  * @brief Provide an abstraction to the physic engine.
@@ -44,11 +46,11 @@ public:
     ~GameManager();
 
     /**
-     * @brief Simple initialize the manager.
+     * @brief Simple initialise the manager.
      *
      * Finalize the manager.
      */
-    void initialize();
+    void initialise();
 
     /**
      * @brief Execute one game step
@@ -62,7 +64,10 @@ public:
      */
     void gameStep(double timeStep);
 
-    void robotRelocation();
+    /**
+     * Reposiciona os robos
+     */
+    void robotRelocation(GameState gs, unsigned int chronometer);
 
     /**
      * @brief Finalize the manager.
@@ -82,8 +87,6 @@ private:
      * the simulator.
      */
     WorldModel * wm;
-
-    enum {Normal, FreeKick, PenaltyKick, GoalKick, FreeBall} gameState;
 
     dWorldID world;
 

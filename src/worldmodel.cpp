@@ -64,38 +64,38 @@ void RobotModel::normalizeWheelsSpeeds()
 void WorldModel::setInitialPosition(int period)
 {
     int randomx, randomy;
-    srand(time(NULL));          // Initialize random number generator.
+    qsrand(time(NULL));          // Initialize random number generator.
     ball.setPosition(0, 0, 3);
     if (period == 1) {
         team[0].robot[0].setSpatialLocation(-75, 0, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[0].robot[1].setSpatialLocation(-20+randomx, 20+randomy, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[0].robot[2].setSpatialLocation(-20+randomx,-20+randomy, 5, 0, 0, 0);
         team[1].robot[0].setSpatialLocation( 75, 0, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[1].robot[1].setSpatialLocation( 20+randomx, 20+randomy, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[1].robot[2].setSpatialLocation( 20+randomx,-20+randomy, 5, 0, 0, 0);
     }
     else if (period == 2) {
         team[0].robot[0].setSpatialLocation( 75, 0, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[0].robot[1].setSpatialLocation( 20+randomx, 20+randomy, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[0].robot[2].setSpatialLocation( 20+randomx,-20+randomy, 5, 0, 0, 0);
         team[1].robot[0].setSpatialLocation(-75, 0, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[1].robot[1].setSpatialLocation(-20+randomx, 20+randomy, 5, 0, 0, 0);
-        randomx = ((rand() % 21)-10);
-        randomy = ((rand() % 21)-10);
+        randomx = ((qrand() % 21)-10);
+        randomy = ((qrand() % 21)-10);
         team[1].robot[2].setSpatialLocation(-20+randomx,-20+randomy, 5, 0, 0, 0);
     }
 }

@@ -1,0 +1,127 @@
+<html>
+<head>
+	<title>USPDroidsFS Programmer's Guide</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO8859-1" />
+	<meta name="keywords" content="uspdroids robot football soccer simulator" />
+	<meta name="description" content="USPDroidsSS" />
+</head>
+
+<body>
+    <a id="Preface"></a><h1>Preface</h1>
+	<p><br /></p>
+	<a id="License"></a><h3>User license agreement</h3>
+	<p>Copyright &copy; 2010 Robot Learning Laboratory</p>
+	<p>Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.3
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+    A copy of the license is included in the section entitled "GNU
+    Free Documentation License".</p>
+	<p><br /></p>
+	<a id="Trademarks"></a><h3>Trademarks and Service Marks</h3>
+	<p>Nokia, the Nokia logo, Qt, and the Qt logo are trademarks of Nokia Corporation and/or its subsidiaries in Finland and other countries.<br />
+	Linux is a <sup>&reg;</sup> trademark of Linus Torvalds in the United States, other countries or both.<br />
+	Microsoft, Windows, XP and the Windows logo are <sup>&reg;</sup> trademarks of Microsoft Corporation in the United States, other countries, or both.<br />
+	OpenGL is a <sup>&reg;</sup> trademark of Silicon Graphics, Inc. in the United States and other countries.</p>
+	<p>All other brands and product names listed are trademarks or registered trademarks of their respective holders.</p>
+	<p><br /></p>
+	<a id="Acknowledgments"></a><h3>Acknowledgments</h3>
+	<p>Documentation written by Raphael Montanari. Additional input by Danilo Doi and Willian Constâncio da Silva.</p>
+	<p><br /></p>
+	<a id="History"></a><h3>Revision History</h3>
+	<table width="500">
+		<tr>
+			<td>Revision 1.0</td><td>July 2010</td><td>Raphael Montanari</td>
+		</tr>
+	</table>
+	<p><br /></p>
+	<hr />
+	<a id="Contents"></a><h1>Table of Contents</h1>
+	<ul>
+		<li><a href="#Preface">PREFACE</li>
+		<ul>
+			<li><a href="#License">USER LICENSE AGREEMENT</a></li>
+			<li><a href="#Trademarks">TRADEMARKS AND SERVICE MARKS</a></li>
+			<li><a href="#Acknowledgments">ACKNOWLEDGMENTS</a></li>
+			<li><a href="#History">REVISION HISTORY</a></li>
+		</ul>
+		<li><a href="#Contents">TABLE OF CONTENTS</li>
+		<li><a href="#Overview">OVERVIEW</li>
+		<ul>
+			<li><a href="#Introduction">INTRODUCTION</a></li>
+			<li><a href="#Audience">INTENDED AUDIENCE</a></li>
+			<li><a href="#Resources">OTHER USPDROIDSFS RESOURCES</a></li>
+			<li><a href="#GettingStarted">GETTING STARTED</a></li>
+			<li><a href="#Installation">INSTALLATION</a></li>
+			<li><a href="#Rules">THE RULES OF THE GAME</a></li>
+		</ul>
+		<li><a href="#Simulator">Simulator</a></li>
+		<ul>
+			<li><a href="#Objects">Objects</a></li>
+			<li><a href="#Protocols">Protocols</a></li>
+			<li><a href="#Simulation">The football simulation</a></li>
+			<li><a href="#OperatingInstructions">Operating instructions</a></li>
+		</ul>
+		<li><a href="#Settings">Settings</a></li>
+		<ul>
+			<li><a href="#Display">Display options</a></li>
+		</ul>
+		<li><a href="#Credits">Credits</a></li>
+	</ul>
+	<p><br /></p>
+	<hr />
+	<a id="Overview"></a><h1>Overview</h1>
+	<p><br /></p>
+	<a id="Introduction"></a><h2>Introduction</h2>
+	<p>A robótica é um dos campos de pesquisa que tem alcançado grandes desenvolvimentos nos últimos anos. Inicialmente, os robôs foram utilizados para a automação de processos de produção industrial. Esse robôs por executarem  tarefas  bem definidas e repetitivas não necessitavam lidar com situações imprevistas. Então, era possível programar todos as possíveis ações do agente robótico para que ele as executem de forma satisfatória.</p>
+	<p>Porém, com o desenvolvimento tecnológico, os robôs começaram também ser utilizados para outros propósitos tais como: entretenimento (jogos, brinquedos), medicina (cirurgia), e realização de tarefas em ambientes perigosos ou de difícil acesso a humanos (espaciais, subaquáticos).</p>
+	<p>Nesse contexto, surgiram os robôs móveis autônomos com a proposta de realizar uma variedade de tarefas mais complexas que seus antecessores, os robôs industriais.</p>
+	<p>A principal limitação na utilização de robôs móveis está em como controlá-los, ou seja, como criar programas capazes de operar estas máquinas complexas. A complexidade cresce, ainda mais, quando considera-se, não apenas um robô, mas uma equipe de robôs para realizar uma tarefa. Para tanto, são necessárias técnicas que lhes permitam interagir de forma efetiva com o ambiente. A parte essencial desta interação é o módulo de planejamento de caminhos que cada robô utiliza para decidir suas ações e encontrar seu caminho em um ambiente.</p>
+	<p><br /></p>
+	<a id="Audience"></a><h2>Intended Audience</h2>
+	<p>This reference guide is most appropriate for a programmer.
+	Experience with C or C++ is not required to learn the concepts in USPDroidsFS,
+	but will make understanding the USPDroidsFS source as well as sample code easier.</p>
+	<p><br /></p>
+	<a id="Resources"></a><h2>Resources</h2>
+	<p>The most important resource for additional information on USPDroidsFS is the website at http://lar.icmc.usp.br/.
+	The main USPDroidsFS site hosts the specification, the open source implementations, and sample code.</p>
+	<p><br /></p>
+	<a id="GettingStarted"></a><h2>Getting Started</h2>
+	<p>This section is designed to give you a quick introduction to the main components of the USPDS football simulator.
+	For each of these components you will find detailed information (i.e. configuration parameters, run-time options, etc.) later on in this manual.</p>
+	<p>Falar do simulador, do monitor e do simple client</p>
+	<p><br /></p>
+	<a id="Installation"></a><h2>Installation</h2>
+	<p><br /></p>
+	<a id="Rules"></a><h2>The rules of the game</h2>
+	<p><br /></p>
+	<hr />
+	<a id="Simulator"></a><h1>Simulator</h1>
+	<p><br /></p>
+	<a id="Objects"></a><h2>Objects</h2>
+	<p>Here is a diagram showing the fundamental USPDroidsFS objects and their relationships to the context and device objects:</p>
+	<p><img src="classesdiagram.png" alt="Classes diagram" /></p>
+	<p><br /></p>
+	<a id="Protocols"></a><h2>Protocols</h2>
+	<p><br /></p>
+	<a id="Simulation"></a><h2>The football simulation</h2>
+	<p><br /></p>
+	<a id="OperatingInstructions"></a><h2>Operating instructions</h2>
+	<p><br /></p>
+	<hr />
+	<a id="Settings"></a><h1>Settings</h1>
+	<p><br /></p>
+	<a id="Display"></a><h2>Display options</h2>
+	<p><br /></p>
+	<hr />
+	<a id="Credits"></a><h1>Credits</h1>
+	<p><br /></p>
+	<hr />
+	<table align="center">
+		<tr>
+			<td width="33%">Copyright &copy; 2010 Robot Learning Laboratory</td><td align="center" width="33%">Programmer's Guide</td><td align="right" width="33%">USPDroidsFS 2.5</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,3 +1,14 @@
+/*
+    Copyright (C) 2010  Doi, Montanari, Silva
+
+    This file is part of the USPDroids Football Simulator.
+
+    The USPDroids Football Simulator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+*/
+
 #ifndef STRATEGIES_MANAGER_H
 #define STRATEGIES_MANAGER_H
 
@@ -15,7 +26,7 @@ public:
     /**
      *
      */
-    void initialize();
+    void initialise();
 
     /**
      *
@@ -33,26 +44,26 @@ public:
     void transmitData();
 
     /**
+     * Access the strategies name.
+     * @param i number of the strategy (0 or 1).
+     * @return the name of the ith strategy.
+     */
+    const char * getTeamName(int i);
+
+    /**
      *
      */
     void finalize();
 
 private:
 
-    /**
-     *
-     */
     void decodeMessage(int strategy, QByteArray message);
 
-    /**
-     *
-     */
-    WorldModel * wm;
+    WorldModel * wm;                /// Contains
 
-    /**
-     *
-     */
-    StrategyConnection * sc[2];
+    RadioConnection * radio[2];     /// Radio
+
+    VisionConnection * vision[2];   /// Vision
 
 };
 

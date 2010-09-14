@@ -11,17 +11,6 @@
 
 #include "viewersmanager.h"
 
-ViewersManager::ViewersManager(WorldModel * wm)
-{
-    this->wm = wm;
-    viewerPort = 25999;
-    if (!listenerSocket.bind(viewerPort, QUdpSocket::DontShareAddress)) {
-        printf("Could not bind the socket.");
-        exit(0);
-    }
-    connect(&listenerSocket, SIGNAL(readyRead()), this, SLOT(receiveMessage()));
-}
-
 ViewersManager::ViewersManager(WorldModel * wm, quint16 viewerPort)
 {
     this->wm = wm;
@@ -33,7 +22,7 @@ ViewersManager::ViewersManager(WorldModel * wm, quint16 viewerPort)
     connect(&listenerSocket, SIGNAL(readyRead()), this, SLOT(receiveMessage()));
 }
 
-void ViewersManager::initialize()
+void ViewersManager::initialise()
 {
 }
 

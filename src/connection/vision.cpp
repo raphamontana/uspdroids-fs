@@ -10,13 +10,55 @@
 */
 
 #include "vision.h"
+#include <QApplication>
 
 VisionConnection::VisionConnection(quint16 port)
 {
+    this->port = port;
+    isConnected = false;
 }
 
 void VisionConnection::run()
 {
+    if (isConnected) {
+        send();
+    }
+    else connectStrategy();
+}
+
+void VisionConnection::connectStrategy()
+{
+    QByteArray datagram;
     socket = new QUdpSocket();
-    socket->bind(port);
+    // Binds this socket to the address and the port
+    if (!socket->bind(port, QUdpSocket::DontShareAddress)) {
+        puts("Could not bind the socket.");
+        QApplication::exit(0);
+    }
+    while (true) {
+        socket->waitForReadyRead();
+        datagram.resize(socket->pendingDatagramSize());
+        socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &strategyAddress, &strategyPort);
+        if (datagram.contains("Connection request")) {
+            socket->write("Request aceppted.");
+            break;
+        }
+    }
+    isConnected = true;
+}
+void VisionConnection::disconnectStrategy()
+{
+    socket->close();
+    delete(socket);
+}
+
+void VisionConnection::setMessageToSend(QByteArray datagram)
+{
+    messageToSend = datagram;
+}
+
+void VisionConnection::send()
+{
+    socket->writeDatagram(messageToSend, strategyAddress, strategyPort);
+    socket->waitForBytesWritten();
 }

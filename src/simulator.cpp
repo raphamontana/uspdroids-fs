@@ -27,57 +27,61 @@ Simulator::~Simulator()
     delete(vm);
 }
 
-void Simulator::initialize()
+void Simulator::initialise()
 {
-    puts("Initializing simulator...");
-    wm.chronometer = 0;
-    goals[0]    = 0;
-    goals[1]    = 0;
-    gm->initialize();
-    sm->initialize();
-    vm->initialize();
+    puts("Initialising simulator...");
+    gm->initialise();
+    sm->initialise();
+    vm->initialise();
     puts("Awaiting strategies connection...");
     sm->waitStrategies();
-    sm->transmitData();
     puts("Strategies connected.");
+    //sm->transmitData();
 }
 
 void Simulator::execute()
 {
+    quint32 chronometer;
+    const unsigned int tenMinutes = 36000;        /// = 60fps * 60s * 10min
     while (conf.simulations-- > 0) {
+        chronometer = 0;
+        goals[0]    = 0;
+        goals[1]    = 0;
         puts("Match started.");
-        const unsigned int tenMinutes = 36000;        /// = 60fps * 60s * 10min
-        while (wm.chronometer < tenMinutes) {
+        puts("First period.");
+        gm->robotRelocation(Normal, chronometer);
+        while (chronometer < tenMinutes) {
             pauseLock.lock();
-            sm->recvCommands();
-            vm->recvCommands();
-            gm->gameStep(0.014);
-            sm->transmitData();
-            vm->transmitData();
-            gm->gameStep(0.002);    /// Tempo processamento da visao
-            if (wm.chronometer%60 == 0) {
-                printf("Time: %dmin %ds\n", wm.chronometer/3600, wm.chronometer%3600/60);
-                if (wm.chronometer == 18000) {
+            if (chronometer%60 == 0) {
+                printf("Time: %dmin %ds\n", chronometer/3600, chronometer%3600/60);
+                if (chronometer == 18000) {
                     puts("Second period.");
-                    gm->robotRelocation();
+                    gm->robotRelocation(Normal, chronometer);
                 }
             }
-            wm.chronometer++;
+            sm->transmitData();
+            vm->transmitData();
+            gm->gameStep(0.008); /// Vision processing time: Simulate the delay between the image capture and the message received from the strategy.
+            sm->recvCommands();
+            vm->recvCommands();
+            gm->gameStep(0.008);
+            // Insert referee here!!!
+            chronometer++;
             pauseLock.unlock();
         }
+        puts("Time: 10min 0s");
+        puts("End of match.");
+        printf("Final score: %s %d x %d %s\n", sm->getTeamName(0), goals[0], goals[1], sm->getTeamName(1));
+        if (goals[0] > goals[1]) {
+            printf("%s won.\n", sm->getTeamName(0));
+        } else if (goals[0] < goals[1]) {
+            printf("%s won.\n", sm->getTeamName(1));
+        } else puts("Draw.");
     }
 }
 
 void Simulator::finish()
 {
-    printf("Time: %dmin %ds\n", wm.chronometer/3600, wm.chronometer%3600/60);
-    puts("End of match.");
-    printf("Final score: %s %d x %d %s\n", wm.team[0].name.toAscii().data(), goals[0], goals[1], wm.team[1].name.toAscii().data());
-    if (goals[0] > goals[1]) {
-        printf("%s won.\n", wm.team[0].name.toAscii().data());
-    } else if (goals[0] < goals[1]) {
-        printf("%s won.\n", wm.team[1].name.toAscii().data());
-    } else puts("Draw.");
     puts("Finalizing simulator.");
     gm->finalize();
     sm->finalize();
@@ -87,29 +91,20 @@ void Simulator::finish()
 
 void Simulator::launch()
 {
-    if (!conf.exec) {
-        emit(quit());
-    }
-    else if (conf.gui) {
-        Q_INIT_RESOURCE(icons);
-        FrontEnd * fe = new FrontEnd();
-        fe->show();
-    }
-    else {
-        emit(quit());
-        initialize();
-        execute();
-        finish();
-        emit(quit());
-    }
+    initialise();
+    //execute();
+    //finish();
+    emit(quit());
 }
 
 void Simulator::pause()
 {
     if (isPaused) {
+        isPaused = false;
         pauseLock.unlock();
     }
     else {
         pauseLock.lock();
+        isPaused = true;
     }
 }

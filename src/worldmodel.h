@@ -58,8 +58,6 @@ class TeamModel
 
 public:
 
-    QString name;
-
     RobotModel robot[3];
 
 };
@@ -68,8 +66,6 @@ class WorldModel
 {
 
 public:
-
-    quint32 chronometer;
 
     TeamModel team[2];
 

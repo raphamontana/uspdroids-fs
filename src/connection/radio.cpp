@@ -14,9 +14,18 @@
 RadioConnection::RadioConnection(quint16 port)
 {
     this->port = port;
+    isConnected = false;
 }
 
 void RadioConnection::run()
+{
+    if (isConnected) {
+        recv();
+    }
+    else connectStrategy();
+}
+
+void RadioConnection::connectStrategy()
 {
     QByteArray datagram;
     socket = new QUdpSocket();
@@ -31,10 +40,11 @@ void RadioConnection::run()
         if (datagram.contains("Connection request")) {
             datagram.remove(0, 20);
             teamName = datagram.data();
-            send("Request aceppted.");
+            socket->write("Request aceppted.");
             break;
         }
     }
+    isConnected = true;
     printf("Team %s has connected.\n", teamName.data());
 }
 
@@ -44,8 +54,33 @@ void RadioConnection::disconnectStrategy()
     delete(socket);
 }
 
-void RadioConnection::send(QByteArray datagram)
+void RadioConnection::recv()
 {
-    socket->writeDatagram(datagram, strategyAddress, strategyPort);
-    socket->waitForBytesWritten();
+    QHostAddress host;
+    quint16 port;
+    QByteArray datagram;
+    if (socket->waitForReadyRead(17)) {
+        socket->readDatagram(datagram.data(), socket->pendingDatagramSize(), &host, &port);
+        if (host == strategyAddress && port == strategyPort) {
+            if (datagram.data()[0] == 'O') {
+                command = datagram;
+            }
+            else if (datagram.contains("Disconnection request")) {
+                //state = disconnected;
+            }
+        }
+        else {
+            socket->writeDatagram("Request rejected.", host, port);
+        }
+    }
+}
+
+QByteArray RadioConnection::getMessage()
+{
+    return(command);
+}
+
+const char * RadioConnection::getTeamName()
+{
+    return(teamName.data());
 }
